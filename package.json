@@ -1,0 +1,22 @@
+{
+  "name": "algorithmos",
+  "version": "1.0.2",
+  "description": "OS Algorithms",
+  "main": "dist/Algorithms.js",
+  "types": "dist/Algorithms.d.js",
+  "scripts": {
+    "prepare": "npm run build",
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository" :{ 
+    "type" : "git",
+    "url" : ""
+  },
+  "author": "Ambrose Nguyen Tuan Kiet",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^2.9.1"
+  }
+}
