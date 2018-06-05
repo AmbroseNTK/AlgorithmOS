@@ -1,6 +1,6 @@
 {
   "name": "algorithmos",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "OS Algorithms",
   "main": "dist/Algorithms.js",
   "types": "dist/Algorithms.d.js",
@@ -11,7 +11,7 @@
   },
   "repository" :{ 
     "type" : "git",
-    "url" : ""
+    "url" : "https://github.com/AmbroseNTK/AlgorithmOS"
   },
   "author": "Ambrose Nguyen Tuan Kiet",
   "license": "ISC",
