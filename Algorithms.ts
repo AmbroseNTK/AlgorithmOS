@@ -69,7 +69,7 @@ export module Algorithm {
          * Sự hoàn thành của tác vụ
          */
         get IsFinished(): boolean {
-            return this.isFinished;
+            return this.isFinished || this.type == TaskType.Arrive;
         }
         /**
          * Kiểm tra sự hoàn thành của tiến trình
@@ -81,7 +81,7 @@ export module Algorithm {
          * Di chuyển đến tác vụ tiếp theo nếu có
          */
         public moveNext(): boolean {
-            if (this.isFinished && this.nextTask != null) {
+            if (this.IsFinished && this.nextTask != null) {
                 this.type = this.nextTask.type;
                 this.time = this.nextTask.time;
                 this.nextTask = this.nextTask.nextTask;
@@ -93,7 +93,7 @@ export module Algorithm {
          * Trừ bớt một đơn vị thời gian trong hoạt động của tác vụ
          */
         public decreaseTime() {
-            if (this.time == 0) {
+            if (this.time == 0 || this.type == TaskType.Arrive) {
                 this.isFinished = true;
             }
             else {
@@ -139,6 +139,16 @@ export module Algorithm {
                     return false;
             });
             return true;
+        }
+
+        public logAll():string{
+            var result:string ="";
+            var current:Task|null = new Task(this.Type,this.time,this.nextTask);
+            while(current!=null){
+                result+=current.toString()+"\n";
+                current = current.nextTask;
+            }
+            return result;
         }
 
     }
@@ -241,6 +251,7 @@ export module Algorithm {
             return this.time + ";" + this.proccessName + ";" + this.description;
         }
 
+      
     }
 
     /**
@@ -298,6 +309,13 @@ export module Algorithm {
             return undefined;
         }
 
+        /**
+         * Lấy độ dài hàng đợi
+         */
+        public getLength(): number {
+            return this.list.length;
+        }
+
     }
 
     export interface IScheduler {
@@ -310,8 +328,8 @@ export module Algorithm {
     export abstract class Scheduler {
         private inputProcess: Array<Process>;
 
-        constructor() {
-            this.inputProcess = new Array<Process>();
+        constructor(inputProcess: Array<Process>) {
+            this.inputProcess = inputProcess;
         }
         get InputProcess(): Array<Process> {
             return this.inputProcess;
@@ -332,8 +350,7 @@ export module Algorithm {
          * @param inputProcess Dãy các tiến trình đầu vào
          */
         constructor(inputProcess: Array<Process>) {
-            super();
-            this.InputProcess = inputProcess;
+            super(inputProcess);
         }
 
         /**
@@ -342,10 +359,10 @@ export module Algorithm {
         public scheduling(): Storyboard {
             let story = new Storyboard();
             let time: number = 0;
-            let processing: Process;
+            let currentProcess: Process | undefined = undefined;
             //Hàng đợi thực hiện CPU
             let cpuQueue = new Queue<Process>();
-            while (Process.allProcessFinished(this.InputProcess)) {
+            while (!Process.allProcessArrived(this.InputProcess)) {
                 this.InputProcess.forEach((value: Process, index: number, array: Process[]) => {
                     let currentTask = value.getTask();
                     if (currentTask.Time == time) {
@@ -354,9 +371,22 @@ export module Algorithm {
                         }
                     }
                 });
+                if (cpuQueue.getLength() == 1) {
+                    currentProcess = cpuQueue.deQueue();
+                    if (currentProcess != undefined) {
+                        currentProcess.getTask().moveNext();
+
+                    }
+                }
             }
 
             return story;
+        }
+        private doCPU(proc: Process): void {
+
+        }
+        private doIO(proc: Process): void {
+
         }
     }
 

@@ -56,13 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_algorithms_.html">&quot;Algorithms&quot;</a>
+					<a href="../modules/algorithm.html">Algorithm</a>
 				</li>
 				<li>
-					<a href="../modules/_algorithms_.algorithm.html">Algorithm</a>
-				</li>
-				<li>
-					<a href="_algorithms_.algorithm.fcfsscheduler.html">FcfsScheduler</a>
+					<a href="algorithm.fcfsscheduler.html">FcfsScheduler</a>
 				</li>
 			</ul>
 			<h1>Class FcfsScheduler</h1>
@@ -83,7 +80,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<a href="_algorithms_.algorithm.scheduler.html" class="tsd-signature-type">Scheduler</a>
+						<a href="algorithm.scheduler.html" class="tsd-signature-type">Scheduler</a>
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">FcfsScheduler</span>
@@ -95,7 +92,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_algorithms_.algorithm.ischeduler.html" class="tsd-signature-type">IScheduler</a></li>
+					<li><a href="../interfaces/algorithm.ischeduler.html" class="tsd-signature-type">IScheduler</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -105,19 +102,21 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_algorithms_.algorithm.fcfsscheduler.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="algorithm.fcfsscheduler.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="_algorithms_.algorithm.fcfsscheduler.html#inputprocess" class="tsd-kind-icon">Input<wbr>Process</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="algorithm.fcfsscheduler.html#inputprocess" class="tsd-kind-icon">Input<wbr>Process</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_algorithms_.algorithm.fcfsscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="algorithm.fcfsscheduler.html#docpu" class="tsd-kind-icon">doCPU</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="algorithm.fcfsscheduler.html#doio" class="tsd-kind-icon">doIO</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.fcfsscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a></li>
 							</ul>
 						</section>
 					</div>
@@ -129,14 +128,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Fcfs<wbr>Scheduler<span class="tsd-signature-symbol">(</span>inputProcess<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_algorithms_.algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_algorithms_.algorithm.fcfsscheduler.html" class="tsd-signature-type">FcfsScheduler</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Fcfs<wbr>Scheduler<span class="tsd-signature-symbol">(</span>inputProcess<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.fcfsscheduler.html" class="tsd-signature-type">FcfsScheduler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Overrides <a href="_algorithms_.algorithm.scheduler.html">Scheduler</a>.<a href="_algorithms_.algorithm.scheduler.html#constructor">constructor</a></p>
+								<p>Overrides <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/7a65d46/Algorithms.ts#L327">Algorithms.ts:327</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L345">Algorithms.ts:345</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -144,7 +143,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>inputProcess: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_algorithms_.algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>inputProcess: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>Dãy các tiến trình đầu vào</p>
@@ -152,7 +151,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_algorithms_.algorithm.fcfsscheduler.html" class="tsd-signature-type">FcfsScheduler</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="algorithm.fcfsscheduler.html" class="tsd-signature-type">FcfsScheduler</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -163,30 +162,30 @@
 					<a name="inputprocess" class="tsd-anchor"></a>
 					<h3>Input<wbr>Process</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> InputProcess<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_algorithms_.algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> InputProcess<span class="tsd-signature-symbol">(</span>inputProcess<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_algorithms_.algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> InputProcess<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> InputProcess<span class="tsd-signature-symbol">(</span>inputProcess<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_algorithms_.algorithm.scheduler.html">Scheduler</a>.<a href="_algorithms_.algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
+								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/7a65d46/Algorithms.ts#L316">Algorithms.ts:316</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L334">Algorithms.ts:334</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_algorithms_.algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Inherited from <a href="_algorithms_.algorithm.scheduler.html">Scheduler</a>.<a href="_algorithms_.algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
+								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/7a65d46/Algorithms.ts#L319">Algorithms.ts:319</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L337">Algorithms.ts:337</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>inputProcess: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_algorithms_.algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>inputProcess: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -196,18 +195,64 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="scheduling" class="tsd-anchor"></a>
-					<h3>scheduling</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">scheduling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_algorithms_.algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="docpu" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> doCPU</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">doCPU<span class="tsd-signature-symbol">(</span>proc<span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
-								<p>Implementation of <a href="../interfaces/_algorithms_.algorithm.ischeduler.html">IScheduler</a>.<a href="../interfaces/_algorithms_.algorithm.ischeduler.html#scheduling">scheduling</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/7a65d46/Algorithms.ts#L342">Algorithms.ts:342</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L385">Algorithms.ts:385</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>proc: <a href="algorithm.process.html" class="tsd-signature-type">Process</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="doio" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> doIO</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">doIO<span class="tsd-signature-symbol">(</span>proc<span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L388">Algorithms.ts:388</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>proc: <a href="algorithm.process.html" class="tsd-signature-type">Process</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="scheduling" class="tsd-anchor"></a>
+					<h3>scheduling</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">scheduling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/algorithm.ischeduler.html">IScheduler</a>.<a href="../interfaces/algorithm.ischeduler.html#scheduling">scheduling</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L359">Algorithms.ts:359</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -215,7 +260,7 @@
 									<p>Điều phối FCFS</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_algorithms_.algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -227,54 +272,63 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/algorithm.html">Algorithm</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/_algorithms_.algorithm.iotype.html" class="tsd-kind-icon">IOType</a>
+						<a href="../enums/algorithm.iotype.html" class="tsd-kind-icon">IOType</a>
 					</li>
 					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/_algorithms_.algorithm.tasktype.html" class="tsd-kind-icon">Task<wbr>Type</a>
+						<a href="../enums/algorithm.tasktype.html" class="tsd-kind-icon">Task<wbr>Type</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_algorithms_.algorithm.fcfsscheduler.html" class="tsd-kind-icon">Fcfs<wbr>Scheduler</a>
+						<a href="algorithm.fcfsscheduler.html" class="tsd-kind-icon">Fcfs<wbr>Scheduler</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="_algorithms_.algorithm.fcfsscheduler.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="algorithm.fcfsscheduler.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
-								<a href="_algorithms_.algorithm.fcfsscheduler.html#inputprocess" class="tsd-kind-icon">Input<wbr>Process</a>
+								<a href="algorithm.fcfsscheduler.html#inputprocess" class="tsd-kind-icon">Input<wbr>Process</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="algorithm.fcfsscheduler.html#docpu" class="tsd-kind-icon">doCPU</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="algorithm.fcfsscheduler.html#doio" class="tsd-kind-icon">doIO</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_algorithms_.algorithm.fcfsscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a>
+								<a href="algorithm.fcfsscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_algorithms_.algorithm.process.html" class="tsd-kind-icon">Process</a>
+						<a href="algorithm.process.html" class="tsd-kind-icon">Process</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="_algorithms_.algorithm.queue.html" class="tsd-kind-icon">Queue</a>
+						<a href="algorithm.queue.html" class="tsd-kind-icon">Queue</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_algorithms_.algorithm.scheduler.html" class="tsd-kind-icon">Scheduler</a>
+						<a href="algorithm.scheduler.html" class="tsd-kind-icon">Scheduler</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_algorithms_.algorithm.storyevent.html" class="tsd-kind-icon">Story<wbr>Event</a>
+						<a href="algorithm.storyevent.html" class="tsd-kind-icon">Story<wbr>Event</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_algorithms_.algorithm.storyboard.html" class="tsd-kind-icon">Storyboard</a>
+						<a href="algorithm.storyboard.html" class="tsd-kind-icon">Storyboard</a>
 					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="_algorithms_.algorithm.task.html" class="tsd-kind-icon">Task</a>
+						<a href="algorithm.task.html" class="tsd-kind-icon">Task</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="../interfaces/_algorithms_.algorithm.ischeduler.html" class="tsd-kind-icon">IScheduler</a>
+						<a href="../interfaces/algorithm.ischeduler.html" class="tsd-kind-icon">IScheduler</a>
 					</li>
 				</ul>
 			</nav>

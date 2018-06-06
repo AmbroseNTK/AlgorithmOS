@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IScheduler | algorithmos</title>
+	<title>TaskType | algorithmos</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,72 +56,87 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_algorithms_.html">&quot;Algorithms&quot;</a>
+					<a href="../modules/algorithm.html">Algorithm</a>
 				</li>
 				<li>
-					<a href="../modules/_algorithms_.algorithm.html">Algorithm</a>
-				</li>
-				<li>
-					<a href="_algorithms_.algorithm.ischeduler.html">IScheduler</a>
+					<a href="algorithm.tasktype.html">TaskType</a>
 				</li>
 			</ul>
-			<h1>Interface IScheduler</h1>
+			<h1>Enumeration TaskType</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">IScheduler</span>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/_algorithms_.algorithm.fcfsscheduler.html" class="tsd-signature-type">FcfsScheduler</a></li>
-				</ul>
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Các kiểu tác vụ trong một tiến trình</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Methods</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-interface"><a href="_algorithms_.algorithm.ischeduler.html#scheduling" class="tsd-kind-icon">scheduling</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="algorithm.tasktype.html#arrive" class="tsd-kind-icon">Arrive</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="algorithm.tasktype.html#cpu" class="tsd-kind-icon">CPU</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="algorithm.tasktype.html#io" class="tsd-kind-icon">IO</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-					<a name="scheduling" class="tsd-anchor"></a>
-					<h3>scheduling</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-						<li class="tsd-signature tsd-kind-icon">scheduling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../classes/_algorithms_.algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/7a65d46/Algorithms.ts#L307">Algorithms.ts:307</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Điều phối tiến trình</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="../classes/_algorithms_.algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></h4>
-						</li>
-					</ul>
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="arrive" class="tsd-anchor"></a>
+					<h3>Arrive</h3>
+					<div class="tsd-signature tsd-kind-icon">Arrive<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L10">Algorithms.ts:10</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Tác vụ đến</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="cpu" class="tsd-anchor"></a>
+					<h3>CPU</h3>
+					<div class="tsd-signature tsd-kind-icon">CPU<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L14">Algorithms.ts:14</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Tác vụ CPU</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="io" class="tsd-anchor"></a>
+					<h3>IO</h3>
+					<div class="tsd-signature tsd-kind-icon">IO<span class="tsd-signature-symbol">:</span> </div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f85cf6d/Algorithms.ts#L18">Algorithms.ts:18</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Tác vụ  IO</p>
+						</div>
+					</div>
 				</section>
 			</section>
 		</div>
@@ -131,49 +146,58 @@
 					<li class="globals  ">
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
+					<li class="current tsd-kind-module">
+						<a href="../modules/algorithm.html">Algorithm</a>
+					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/_algorithms_.algorithm.iotype.html" class="tsd-kind-icon">IOType</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/_algorithms_.algorithm.tasktype.html" class="tsd-kind-icon">Task<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/_algorithms_.algorithm.fcfsscheduler.html" class="tsd-kind-icon">Fcfs<wbr>Scheduler</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/_algorithms_.algorithm.process.html" class="tsd-kind-icon">Process</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../classes/_algorithms_.algorithm.queue.html" class="tsd-kind-icon">Queue</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/_algorithms_.algorithm.scheduler.html" class="tsd-kind-icon">Scheduler</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/_algorithms_.algorithm.storyevent.html" class="tsd-kind-icon">Story<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/_algorithms_.algorithm.storyboard.html" class="tsd-kind-icon">Storyboard</a>
-					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
-						<a href="../classes/_algorithms_.algorithm.task.html" class="tsd-kind-icon">Task</a>
+						<a href="algorithm.iotype.html" class="tsd-kind-icon">IOType</a>
 					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="_algorithms_.algorithm.ischeduler.html" class="tsd-kind-icon">IScheduler</a>
+					<li class="current tsd-kind-enum tsd-parent-kind-module">
+						<a href="algorithm.tasktype.html" class="tsd-kind-icon">Task<wbr>Type</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-interface">
-								<a href="_algorithms_.algorithm.ischeduler.html#scheduling" class="tsd-kind-icon">scheduling</a>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="algorithm.tasktype.html#arrive" class="tsd-kind-icon">Arrive</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="algorithm.tasktype.html#cpu" class="tsd-kind-icon">CPU</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="algorithm.tasktype.html#io" class="tsd-kind-icon">IO</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/algorithm.fcfsscheduler.html" class="tsd-kind-icon">Fcfs<wbr>Scheduler</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/algorithm.process.html" class="tsd-kind-icon">Process</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
+						<a href="../classes/algorithm.queue.html" class="tsd-kind-icon">Queue</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/algorithm.scheduler.html" class="tsd-kind-icon">Scheduler</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/algorithm.storyevent.html" class="tsd-kind-icon">Story<wbr>Event</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/algorithm.storyboard.html" class="tsd-kind-icon">Storyboard</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="../classes/algorithm.task.html" class="tsd-kind-icon">Task</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/algorithm.ischeduler.html" class="tsd-kind-icon">IScheduler</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
