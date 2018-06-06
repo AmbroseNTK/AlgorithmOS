@@ -15,9 +15,7 @@
   },
   "author": "Ambrose Nguyen Tuan Kiet",
   "license": "GNU GPLv3",
-  "dependencies": {
-    "typedoc": "^0.11.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "typescript": "^2.9.1"
   }

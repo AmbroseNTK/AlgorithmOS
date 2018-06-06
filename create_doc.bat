@@ -1,1 +1,1 @@
-typedoc --out ./docs Algorithms.ts --mode file --ignoreCompilerErrors
+typedoc --out ./docs Algorithms.ts --mode file --ignoreCompilerErrors --name "AlgorithmOS API Documentation" --hideGenerator
