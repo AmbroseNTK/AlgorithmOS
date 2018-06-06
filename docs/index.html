@@ -65,8 +65,87 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="algorithmos">AlgorithmOS</h1>
-				<p>Các thuật toán về hệ điều hành
-				Xem tài liệu tại: <a href="https://ambrosentk.github.io/AlgorithmOS/">https://ambrosentk.github.io/AlgorithmOS/</a></p>
+				<p>Các thuật toán về hệ điều hành</br>
+					Xem tài liệu tại: <a href="https://ambrosentk.github.io/AlgorithmOS/">https://ambrosentk.github.io/AlgorithmOS/</a>
+					</br>
+				NPM Package: <a href="https://www.npmjs.com/package/algorithmos">https://www.npmjs.com/package/algorithmos</a></p>
+				<p><h2>Giới thiệu</h2></p>
+				<p><p>Thư viện hiện thực các thuật toán được dùng trong hệ điều hành</br>
+					Gồm có các thuật toán sau:</br></p>
+					<ol>
+						<li>Điều phối hỗn hợp CPU+IO: FCFS, SJF, SRTF, Round Robin</li>
+						<li>*Lập lịch truy cập đĩa</br></li>
+						<li>*Thay thế trang</br></li>
+						<li>*Cấp phát bộ nhớ</br>
+				</p>
+				<h2>Hướng dẫn cài đặt</h2>
+				<p>B1: Cài đặt NodeJS</br>
+					B2: Trong command line nhập</br></li>
+					</ol>
+					<pre><code class="lang-batch">npm i algorithmos
+</code></pre>
+					<p></br>
+						B3: Bắt đầu import và sử dụng
+				</p></p>
+				<p><h2>Đoạn code mẫu</h2>
+				Điều phối hỗn hợp CPU+IO 2 tiến trình như sau:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Process</th>
+							<th>Arrive time</th>
+							<th>CPU</th>
+							<th>IO</th>
+							<th>CPU</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><code>P1</code></td>
+							<td>1</td>
+							<td>4</td>
+							<td>2</td>
+							<td>3</td>
+						</tr>
+						<tr>
+							<td><code>P2</code></td>
+							<td>0</td>
+							<td>2</td>
+							<td>3</td>
+							<td>5</td>
+						</tr>
+					</tbody>
+				</table>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { Algorithm} <span class="hljs-keyword">from</span> <span class="hljs-string">'./Algorithms'</span>;
+
+<span class="hljs-comment">//Tạo chuỗi các tác vụ của tiến trình 1</span>
+<span class="hljs-keyword">var</span> task_proc1 = <span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.Arrive,<span class="hljs-number">1</span>,<span class="hljs-literal">null</span>);
+task_proc1
+    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">4</span>,<span class="hljs-literal">null</span>))
+    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.IO,<span class="hljs-number">2</span>,<span class="hljs-literal">null</span>))
+    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">3</span>,<span class="hljs-literal">null</span>));
+
+<span class="hljs-comment">//Tạo chuỗi các tác vụ của tiến trình 2</span>
+<span class="hljs-keyword">var</span> task_proc2 = <span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.Arrive,<span class="hljs-number">0</span>,<span class="hljs-literal">null</span>);
+task_proc2
+    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">2</span>,<span class="hljs-literal">null</span>))
+    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.IO,<span class="hljs-number">3</span>,<span class="hljs-literal">null</span>))
+    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">5</span>,<span class="hljs-literal">null</span>));
+
+<span class="hljs-comment">//Tạo các tiến trình</span>
+<span class="hljs-keyword">var</span> proc1=<span class="hljs-keyword">new</span> Algorithm.Process(<span class="hljs-string">"P1"</span>,task_proc1);
+<span class="hljs-keyword">var</span> proc2=<span class="hljs-keyword">new</span> Algorithm.Process(<span class="hljs-string">"P2"</span>,task_proc2);
+
+<span class="hljs-comment">//Tạo danh sách các tiến trình</span>
+<span class="hljs-keyword">var</span> procList = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>&lt;Algorithm.Process&gt;(proc1,proc2);
+
+<span class="hljs-comment">//Chọn thuật toán điều phối</span>
+<span class="hljs-keyword">var</span> scheduler = <span class="hljs-keyword">new</span> Algorithm.FcfsScheduler(procList);
+
+<span class="hljs-comment">//Nhận kết quả trả về là một Storyboard</span>
+<span class="hljs-keyword">var</span> story:Algorithm.Storyboard = scheduler.scheduling();
+</code></pre>
+				<p><strong>Tham khảo thêm trong tài liệu API</strong></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

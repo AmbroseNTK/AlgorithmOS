@@ -17,8 +17,17 @@ var Algorithm;
      */
     var TaskType;
     (function (TaskType) {
+        /**
+         * Tác vụ đến
+         */
         TaskType[TaskType["Arrive"] = 0] = "Arrive";
+        /**
+         * Tác vụ CPU
+         */
         TaskType[TaskType["CPU"] = 1] = "CPU";
+        /**
+         * Tác vụ  IO
+         */
         TaskType[TaskType["IO"] = 2] = "IO";
     })(TaskType = Algorithm.TaskType || (Algorithm.TaskType = {}));
     /**
@@ -26,7 +35,13 @@ var Algorithm;
      */
     var IOType;
     (function (IOType) {
+        /**
+         * Chỉ có một thiết bị IO (IO chung)
+         */
         IOType[IOType["Single"] = 0] = "Single";
+        /**
+         * Mỗi tiến trình có một thiết bị IO (IO riêng)
+         */
         IOType[IOType["Multi"] = 1] = "Multi";
     })(IOType = Algorithm.IOType || (Algorithm.IOType = {}));
     /**
@@ -40,9 +55,12 @@ var Algorithm;
          * @param nextTask Tác vụ tiếp theo
          */
         function Task(type, time, nextTask) {
+            this.isFinished = false;
+            this.isArrived = false;
             this.type = type;
             this.time = time;
             this.nextTask = nextTask;
+            this.isArrived = (this.time == 0 && this.type == TaskType.Arrive);
         }
         /**
          * Nối tác vụ tiếp theo vào tác vụ hiện tại
@@ -52,23 +70,27 @@ var Algorithm;
             this.nextTask = nextTask;
             return this.nextTask;
         };
-        /**
-         * Kiểm tra sự hoàn thành của tác vụ
-         */
-        Task.prototype.isFinished = function () {
-            return this.time == 0;
-        };
+        Object.defineProperty(Task.prototype, "IsFinished", {
+            /**
+             * Sự hoàn thành của tác vụ
+             */
+            get: function () {
+                return this.isFinished || this.type == TaskType.Arrive;
+            },
+            enumerable: true,
+            configurable: true
+        });
         /**
          * Kiểm tra sự hoàn thành của tiến trình
          */
         Task.prototype.isEnding = function () {
-            return this.isFinished() && this.nextTask == null;
+            return this.isFinished && this.nextTask == null;
         };
         /**
          * Di chuyển đến tác vụ tiếp theo nếu có
          */
         Task.prototype.moveNext = function () {
-            if (this.isFinished() && this.nextTask != null) {
+            if (this.IsFinished && this.nextTask != null) {
                 this.type = this.nextTask.type;
                 this.time = this.nextTask.time;
                 this.nextTask = this.nextTask.nextTask;
@@ -80,13 +102,68 @@ var Algorithm;
          * Trừ bớt một đơn vị thời gian trong hoạt động của tác vụ
          */
         Task.prototype.decreaseTime = function () {
-            this.time--;
+            if (this.time == 0 || this.type == TaskType.Arrive) {
+                this.isFinished = true;
+            }
+            else {
+                this.time--;
+            }
         };
         /**
          * Trả về chuỗi kiểu: <Kiểu>;<Thời gian>;
          */
         Task.prototype.toString = function () {
             console.log(this.type + " ; " + this.time + " ; ");
+        };
+        Object.defineProperty(Task.prototype, "Time", {
+            /**
+             * Thời gian thực hiện một tác vụ. Đối với tác vụ kiểu Arrive thì đây là thời gian tiến trình bắt đầu chạy
+             */
+            get: function () {
+                return this.time;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Task.prototype, "Type", {
+            /**
+             * Kiểu của tác vụ
+             */
+            get: function () {
+                return this.type;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        Object.defineProperty(Task.prototype, "IsArrived", {
+            get: function () {
+                return this.isArrived;
+            },
+            set: function (arrived) {
+                this.isArrived = arrived;
+            },
+            enumerable: true,
+            configurable: true
+        });
+        /**
+         * Kiểm tra xem các tiến trình đã đến hay chưa
+         * @param listProcs Dãy các tiến trình
+         */
+        Task.allArrived = function (listProcs) {
+            listProcs.forEach(function (value, index, array) {
+                if (!value.getTask().IsArrived)
+                    return false;
+            });
+            return true;
+        };
+        Task.prototype.logAll = function () {
+            var result = "";
+            var current = new Task(this.Type, this.time, this.nextTask);
+            while (current != null) {
+                result += current.toString() + "\n";
+                current = current.nextTask;
+            }
+            return result;
         };
         return Task;
     }());
@@ -122,6 +199,24 @@ var Algorithm;
          */
         Process.prototype.isFinished = function () {
             return this.task.isEnding();
+        };
+        /**
+         * Kiểm tra các tiến trình có hoàn thành hết chưa
+         * @param listProcs Dãy các tiến trình cần kiểm tra
+         */
+        Process.allProcessFinished = function (listProcs) {
+            listProcs.forEach(function (value, index, array) {
+                if (!value.isFinished())
+                    return false;
+            });
+            return true;
+        };
+        /**
+         * Kiểm tra tất cả các tiến trình đã bắt đầu hay chưa
+         * @param listProcs Dãy các tiến trình cần kiểm tra
+         */
+        Process.allProcessArrived = function (listProcs) {
+            return Task.allArrived(listProcs);
         };
         return Process;
     }());
@@ -229,12 +324,18 @@ var Algorithm;
                 return this.list[0];
             return undefined;
         };
+        /**
+         * Lấy độ dài hàng đợi
+         */
+        Queue.prototype.getLength = function () {
+            return this.list.length;
+        };
         return Queue;
     }());
     Algorithm.Queue = Queue;
     var Scheduler = /** @class */ (function () {
-        function Scheduler() {
-            this.inputProcess = new Array();
+        function Scheduler(inputProcess) {
+            this.inputProcess = inputProcess;
         }
         Object.defineProperty(Scheduler.prototype, "InputProcess", {
             get: function () {
@@ -259,14 +360,38 @@ var Algorithm;
          * @param inputProcess Dãy các tiến trình đầu vào
          */
         function FcfsScheduler(inputProcess) {
-            var _this = _super.call(this) || this;
-            _this.InputProcess = inputProcess;
-            return _this;
+            return _super.call(this, inputProcess) || this;
         }
         /**
          * Điều phối FCFS
          */
         FcfsScheduler.prototype.scheduling = function () {
+            var story = new Storyboard();
+            var time = 0;
+            var currentProcess = undefined;
+            //Hàng đợi thực hiện CPU
+            var cpuQueue = new Queue();
+            while (!Process.allProcessArrived(this.InputProcess)) {
+                this.InputProcess.forEach(function (value, index, array) {
+                    var currentTask = value.getTask();
+                    if (currentTask.Time == time) {
+                        if (currentTask.Type == TaskType.Arrive) {
+                            cpuQueue.enQueue(value);
+                        }
+                    }
+                });
+                if (cpuQueue.getLength() == 1) {
+                    currentProcess = cpuQueue.deQueue();
+                    if (currentProcess != undefined) {
+                        currentProcess.getTask().moveNext();
+                    }
+                }
+            }
+            return story;
+        };
+        FcfsScheduler.prototype.doCPU = function (proc) {
+        };
+        FcfsScheduler.prototype.doIO = function (proc) {
         };
         return FcfsScheduler;
     }(Scheduler));

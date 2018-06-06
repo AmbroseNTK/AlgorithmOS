@@ -3,15 +3,30 @@ export declare module Algorithm {
      * Các kiểu tác vụ trong một tiến trình
      */
     enum TaskType {
+        /**
+         * Tác vụ đến
+         */
         Arrive = 0,
+        /**
+         * Tác vụ CPU
+         */
         CPU = 1,
+        /**
+         * Tác vụ  IO
+         */
         IO = 2
     }
     /**
      * Kiểu của IO
      */
     enum IOType {
+        /**
+         * Chỉ có một thiết bị IO (IO chung)
+         */
         Single = 0,
+        /**
+         * Mỗi tiến trình có một thiết bị IO (IO riêng)
+         */
         Multi = 1
     }
     /**
@@ -21,6 +36,8 @@ export declare module Algorithm {
         private type;
         private time;
         private nextTask;
+        private isFinished;
+        private isArrived;
         /**
          *
          * @param type Kiểu tác vụ
@@ -34,9 +51,9 @@ export declare module Algorithm {
          */
         join(nextTask: Task): Task;
         /**
-         * Kiểm tra sự hoàn thành của tác vụ
+         * Sự hoàn thành của tác vụ
          */
-        isFinished(): boolean;
+        readonly IsFinished: boolean;
         /**
          * Kiểm tra sự hoàn thành của tiến trình
          */
@@ -53,6 +70,21 @@ export declare module Algorithm {
          * Trả về chuỗi kiểu: <Kiểu>;<Thời gian>;
          */
         toString(): void;
+        /**
+         * Thời gian thực hiện một tác vụ. Đối với tác vụ kiểu Arrive thì đây là thời gian tiến trình bắt đầu chạy
+         */
+        readonly Time: number;
+        /**
+         * Kiểu của tác vụ
+         */
+        readonly Type: TaskType;
+        IsArrived: boolean;
+        /**
+         * Kiểm tra xem các tiến trình đã đến hay chưa
+         * @param listProcs Dãy các tiến trình
+         */
+        static allArrived(listProcs: Process[]): boolean;
+        logAll(): string;
     }
     /**
      * Tiến trình
@@ -72,6 +104,16 @@ export declare module Algorithm {
          * Kiểm tra sự hoàn thành của tiến trình
          */
         isFinished(): boolean;
+        /**
+         * Kiểm tra các tiến trình có hoàn thành hết chưa
+         * @param listProcs Dãy các tiến trình cần kiểm tra
+         */
+        static allProcessFinished(listProcs: Process[]): boolean;
+        /**
+         * Kiểm tra tất cả các tiến trình đã bắt đầu hay chưa
+         * @param listProcs Dãy các tiến trình cần kiểm tra
+         */
+        static allProcessArrived(listProcs: Process[]): boolean;
     }
     /**
      * Sự kiện xảy ra trong quá trình điều phối
@@ -124,16 +166,20 @@ export declare module Algorithm {
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
         viewTop(): T | undefined;
+        /**
+         * Lấy độ dài hàng đợi
+         */
+        getLength(): number;
     }
     interface IScheduler {
         /**
          * Điều phối tiến trình
          */
-        scheduling(): void;
+        scheduling(): Storyboard;
     }
     abstract class Scheduler {
         private inputProcess;
-        constructor();
+        constructor(inputProcess: Array<Process>);
         InputProcess: Array<Process>;
     }
     /**
@@ -148,6 +194,8 @@ export declare module Algorithm {
         /**
          * Điều phối FCFS
          */
-        scheduling(): void;
+        scheduling(): Storyboard;
+        private doCPU;
+        private doIO;
     }
 }
