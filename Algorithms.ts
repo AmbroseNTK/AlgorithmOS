@@ -4,8 +4,17 @@ export module Algorithm {
      * Các kiểu tác vụ trong một tiến trình
      */
     export enum TaskType {
+        /**
+         * Tác vụ đến
+         */
         Arrive,
+        /**
+         * Tác vụ CPU
+         */
         CPU,
+        /**
+         * Tác vụ  IO
+         */
         IO
     }
 
@@ -13,7 +22,13 @@ export module Algorithm {
      * Kiểu của IO
      */
     export enum IOType {
+        /**
+         * Chỉ có một thiết bị IO (IO chung)
+         */
         Single,
+        /**
+         * Mỗi tiến trình có một thiết bị IO (IO riêng)
+         */
         Multi
     }
 

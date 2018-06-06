@@ -1,0 +1,1 @@
+typedoc --out ./docs ./ --mode modules --ignoreCompilerErrors

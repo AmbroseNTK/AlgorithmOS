@@ -1,7 +1,7 @@
 {
   "name": "algorithmos",
-  "version": "1.0.3",
-  "description": "OS Algorithms",
+  "version": "1.0.5",
+  "description": "Các thuật toán của hệ điều hành",
   "main": "dist/Algorithms.js",
   "types": "dist/Algorithms.d.js",
   "scripts": {
@@ -14,7 +14,7 @@
     "url" : "https://github.com/AmbroseNTK/AlgorithmOS"
   },
   "author": "Ambrose Nguyen Tuan Kiet",
-  "license": "ISC",
+  "license": "GNU GPLv3",
   "dependencies": {},
   "devDependencies": {
     "typescript": "^2.9.1"
