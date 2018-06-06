@@ -304,7 +304,7 @@ export module Algorithm {
         /**
          * Điều phối tiến trình
          */
-        scheduling(): void;
+        scheduling(): Storyboard;
     }
 
     export abstract class Scheduler {
@@ -339,7 +339,8 @@ export module Algorithm {
         /**
          * Điều phối FCFS
          */
-        public scheduling(): void {
+        public scheduling(): Storyboard {
+            let story = new Storyboard();
             let time: number = 0;
             let processing: Process;
             //Hàng đợi thực hiện CPU
@@ -354,6 +355,8 @@ export module Algorithm {
                     }
                 });
             }
+
+            return story;
         }
     }
 
