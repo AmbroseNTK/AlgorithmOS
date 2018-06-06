@@ -9,13 +9,15 @@
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository" :{ 
-    "type" : "git",
-    "url" : "https://github.com/AmbroseNTK/AlgorithmOS"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AmbroseNTK/AlgorithmOS"
   },
   "author": "Ambrose Nguyen Tuan Kiet",
   "license": "GNU GPLv3",
-  "dependencies": {},
+  "dependencies": {
+    "typedoc": "^0.11.1"
+  },
   "devDependencies": {
     "typescript": "^2.9.1"
   }

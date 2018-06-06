@@ -38,17 +38,21 @@ export module Algorithm {
     export class Task {
         private type: TaskType;
         private time: number;
-        private nextTask: Task|null;
+        private nextTask: Task | null;
+        private isFinished: boolean = false;
+        private isArrived: boolean = false;
         /**
          * 
          * @param type Kiểu tác vụ
          * @param time Thời gian thực hiện
          * @param nextTask Tác vụ tiếp theo
          */
-        constructor(type: TaskType, time: number, nextTask: Task|null) {
+        constructor(type: TaskType, time: number, nextTask: Task | null) {
             this.type = type;
             this.time = time;
             this.nextTask = nextTask;
+            this.isArrived = (this.time == 0 && this.type == TaskType.Arrive);
+
         }
 
         /**
@@ -60,23 +64,24 @@ export module Algorithm {
             return this.nextTask;
         }
 
+
         /**
-         * Kiểm tra sự hoàn thành của tác vụ
+         * Sự hoàn thành của tác vụ
          */
-        public isFinished(): boolean {
-            return this.time == 0;
+        get IsFinished(): boolean {
+            return this.isFinished;
         }
         /**
          * Kiểm tra sự hoàn thành của tiến trình
          */
         public isEnding(): boolean {
-            return this.isFinished() && this.nextTask == null;
+            return this.isFinished && this.nextTask == null;
         }
         /**
          * Di chuyển đến tác vụ tiếp theo nếu có
          */
         public moveNext(): boolean {
-            if (this.isFinished() && this.nextTask != null) {
+            if (this.isFinished && this.nextTask != null) {
                 this.type = this.nextTask.type;
                 this.time = this.nextTask.time;
                 this.nextTask = this.nextTask.nextTask;
@@ -87,94 +92,153 @@ export module Algorithm {
         /**
          * Trừ bớt một đơn vị thời gian trong hoạt động của tác vụ
          */
-        public decreaseTime(){
-            this.time--;
+        public decreaseTime() {
+            if (this.time == 0) {
+                this.isFinished = true;
+            }
+            else {
+                this.time--;
+            }
         }
         /**
          * Trả về chuỗi kiểu: <Kiểu>;<Thời gian>;
          */
-        public toString():void{
-            console.log(this.type+" ; "+this.time+" ; ");
+        public toString(): void {
+            console.log(this.type + " ; " + this.time + " ; ");
         }
+
+        /**
+         * Thời gian thực hiện một tác vụ. Đối với tác vụ kiểu Arrive thì đây là thời gian tiến trình bắt đầu chạy
+         */
+        get Time(): number {
+            return this.time;
+        }
+
+        /**
+         * Kiểu của tác vụ
+         */
+        get Type(): TaskType {
+            return this.type;
+        }
+
+        get IsArrived(): boolean {
+            return this.isArrived;
+        }
+
+        set IsArrived(arrived: boolean) {
+            this.isArrived = arrived;
+        }
+
+        /**
+         * Kiểm tra xem các tiến trình đã đến hay chưa
+         * @param listProcs Dãy các tiến trình
+         */
+        static allArrived(listProcs: Process[]): boolean {
+            listProcs.forEach((value: Process, index: number, array: Process[]) => {
+                if (!value.getTask().IsArrived)
+                    return false;
+            });
+            return true;
+        }
+
     }
 
     /**
      * Tiến trình
      */
     export class Process {
-        private task:Task;
-        private processName:string;
+        private task: Task;
+        private processName: string;
         /**
          * 
          * @param processName Tên tiến trình
          * @param task Tác vụ
          */
-        constructor(processName:string,task:Task){
+        constructor(processName: string, task: Task) {
             this.processName = processName;
             this.task = task;
         }
 
-        public getTask():Task{
+        public getTask(): Task {
             return this.task;
         }
-        get ProcessName():string{
+        get ProcessName(): string {
             return this.processName;
         }
-        set ProcessName(proccessName:string){
+        set ProcessName(proccessName: string) {
             this.processName = proccessName;
         }
         /**
          * Kiểm tra sự hoàn thành của tiến trình
          */
-        public isFinished():boolean{
+        public isFinished(): boolean {
             return this.task.isEnding();
+        }
+        /**
+         * Kiểm tra các tiến trình có hoàn thành hết chưa
+         * @param listProcs Dãy các tiến trình cần kiểm tra
+         */
+        public static allProcessFinished(listProcs: Process[]): boolean {
+            listProcs.forEach((value: Process, index: number, array: Process[]) => {
+                if (!value.isFinished())
+                    return false;
+            });
+            return true;
+        }
+
+        /**
+         * Kiểm tra tất cả các tiến trình đã bắt đầu hay chưa
+         * @param listProcs Dãy các tiến trình cần kiểm tra
+         */
+        public static allProcessArrived(listProcs: Process[]): boolean {
+            return Task.allArrived(listProcs);
         }
     }
 
     /**
      * Sự kiện xảy ra trong quá trình điều phối
      */
-    export class StoryEvent{
-        private time:number;
-        private proccessName:string;
-        private description:string;
+    export class StoryEvent {
+        private time: number;
+        private proccessName: string;
+        private description: string;
         /**
          * 
          * @param time Thời gian xảy ra sự kiện
          * @param processName Tiến trình gây nên sự kiện
          * @param description Thông tin mô tả
          */
-        constructor(time:number, processName:string, description:string){
-            this.time=time;
-            this.proccessName=processName;
+        constructor(time: number, processName: string, description: string) {
+            this.time = time;
+            this.proccessName = processName;
             this.description = description;
         }
 
-        get Time():number {
+        get Time(): number {
             return this.time;
-        } 
+        }
 
-        set Time(time:number){
+        set Time(time: number) {
             this.time = time;
         }
 
-        get ProcessName():string{
+        get ProcessName(): string {
             return this.proccessName;
         }
-        set ProcessName(processName:string){
+        set ProcessName(processName: string) {
             this.proccessName = processName;
         }
 
-        get Description():string{
+        get Description(): string {
             return this.description;
         }
 
-        set Description(description: string){
+        set Description(description: string) {
             this.description = description;
         }
 
-        public toString():string{
-            return this.time+";"+this.proccessName+";"+this.description;
+        public toString(): string {
+            return this.time + ";" + this.proccessName + ";" + this.description;
         }
 
     }
@@ -182,14 +246,14 @@ export module Algorithm {
     /**
      * Chuỗi các sự kiện
      */
-    export class Storyboard{
-        private list:Array<StoryEvent>;
+    export class Storyboard {
+        private list: Array<StoryEvent>;
 
-        constructor(){
+        constructor() {
             this.list = new Array<StoryEvent>();
         }
 
-        get Story():Array<StoryEvent>{
+        get Story(): Array<StoryEvent> {
             return this.list;
         }
 
@@ -197,7 +261,7 @@ export module Algorithm {
          * Thêm sự kiện mới vào chuỗi các sự kiện
          * @param event Sự kiện mới
          */
-        public addEvent(event:StoryEvent){
+        public addEvent(event: StoryEvent) {
             this.list.push(event);
         }
 
@@ -207,52 +271,52 @@ export module Algorithm {
      * Hàng đợi
      */
     export class Queue<T>{
-        private list:Array<T>;
-        constructor(){
+        private list: Array<T>;
+        constructor() {
             this.list = new Array<T>();
         }
         /**
          * Nhét phần tử mới vào hàng đợi
          * @param element Phần tử cần nhét
          */
-        public enQueue(element: T){
+        public enQueue(element: T) {
             this.list.push(element);
         }
         /**
          * Lấy phần tử đầu ra khỏi hàng đợi
          */
-        public deQueue():T|undefined{
+        public deQueue(): T | undefined {
             return this.list.shift();
         }
 
         /**
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
-        public viewTop():T|undefined{
-            if(this.list.length!=0)
+        public viewTop(): T | undefined {
+            if (this.list.length != 0)
                 return this.list[0];
             return undefined;
         }
 
     }
 
-    export interface IScheduler{
+    export interface IScheduler {
         /**
          * Điều phối tiến trình
          */
-        scheduling():void;
+        scheduling(): void;
     }
-    
-    export abstract class Scheduler{
-        private inputProcess:Array<Process>;
 
-        constructor(){
+    export abstract class Scheduler {
+        private inputProcess: Array<Process>;
+
+        constructor() {
             this.inputProcess = new Array<Process>();
         }
-        get InputProcess():Array<Process>{
+        get InputProcess(): Array<Process> {
             return this.inputProcess;
         }
-        set InputProcess(inputProcess: Array<Process>){
+        set InputProcess(inputProcess: Array<Process>) {
             this.inputProcess = inputProcess;
         }
     }
@@ -260,24 +324,36 @@ export module Algorithm {
     /**
      * Điều phối tiến trình CPU theo cơ chế FCFS (First-Come-First-Serve). Tiến trình vào trước được xử lý trước
      */
-    export class FcfsScheduler extends Scheduler implements IScheduler{
-     
+    export class FcfsScheduler extends Scheduler implements IScheduler {
+
 
         /**
          * 
          * @param inputProcess Dãy các tiến trình đầu vào
          */
-        constructor(inputProcess:Array<Process>){
+        constructor(inputProcess: Array<Process>) {
             super();
             this.InputProcess = inputProcess;
         }
-        
+
         /**
          * Điều phối FCFS
          */
-        public scheduling():void{
-            
-            
+        public scheduling(): void {
+            let time: number = 0;
+            let processing: Process;
+            //Hàng đợi thực hiện CPU
+            let cpuQueue = new Queue<Process>();
+            while (Process.allProcessFinished(this.InputProcess)) {
+                this.InputProcess.forEach((value: Process, index: number, array: Process[]) => {
+                    let currentTask = value.getTask();
+                    if (currentTask.Time == time) {
+                        if (currentTask.Type == TaskType.Arrive) {
+                            cpuQueue.enQueue(value);
+                        }
+                    }
+                });
+            }
         }
     }
 
