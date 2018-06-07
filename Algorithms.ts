@@ -141,11 +141,11 @@ export module Algorithm {
             return true;
         }
 
-        public logAll():string{
-            var result:string ="";
-            var current:Task|null = new Task(this.Type,this.time,this.nextTask);
-            while(current!=null){
-                result+=current.toString()+"\n";
+        public logAll(): string {
+            var result: string = "";
+            var current: Task | null = new Task(this.Type, this.time, this.nextTask);
+            while (current != null) {
+                result += current.toString() + "\n";
                 current = current.nextTask;
             }
             return result;
@@ -251,7 +251,7 @@ export module Algorithm {
             return this.time + ";" + this.proccessName + ";" + this.description;
         }
 
-      
+
     }
 
     /**
@@ -325,8 +325,15 @@ export module Algorithm {
         scheduling(): Storyboard;
     }
 
+    /**
+     * Bộ điều phối CPU
+     */
     export abstract class Scheduler {
         private inputProcess: Array<Process>;
+        /**
+         * Kiểu của thiết bị nhập xuất (IO Device)
+         */
+        private ioMode: IOType = IOType.Multi;
 
         constructor(inputProcess: Array<Process>) {
             this.inputProcess = inputProcess;
@@ -336,6 +343,13 @@ export module Algorithm {
         }
         set InputProcess(inputProcess: Array<Process>) {
             this.inputProcess = inputProcess;
+        }
+
+        get IOMode():IOType{
+            return this.ioMode;
+        }
+        set IOMode(ioMode:IOType){
+            this.ioMode = ioMode;
         }
     }
 
@@ -382,12 +396,93 @@ export module Algorithm {
 
             return story;
         }
-        private doCPU(proc: Process): void {
+    }
 
-        }
-        private doIO(proc: Process): void {
+    /**
+     * Điều phối CPU theo cơ chế SJF (Shortest Job First). Tiến trình yêu cầu ít CPU hơn thì được thực thi trước. Tiến trình đang chạy không bị cướp CPU.
+     */
+    export class SjfScheduler extends Scheduler implements IScheduler {
 
+        /**
+         * 
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess: Array<Process>) {
+            super(inputProcess);
         }
+
+        /**
+         * Điều phối SJF
+         */
+        public scheduling(): Storyboard {
+            var story = new Storyboard();
+
+            return story;
+        }
+
+    }
+
+    /**
+     * Điều phối CPU theo cơ chế SRTF (Shortest Recent Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
+     */
+    export class SrtfScheduler extends Scheduler implements IScheduler {
+
+        /**
+         * 
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess: Array<Process>) {
+            super(inputProcess);
+        }
+
+        /**
+         * Điều phối SJF
+         */
+        public scheduling(): Storyboard {
+            var story = new Storyboard();
+
+            return story;
+        }
+
+    }
+
+    /**
+     * Điều phối CPU theo cơ chế Round Robin. Tiến trình vào hàng đợi trước thì được điều phối trước. Tuy nhiên chúng chỉ được chiếm CPU trong độ dài thời gian là Quantum.
+     */
+    export class RoundRobinScheduler extends Scheduler implements IScheduler {
+
+        /**
+         * Lát thời gian (Slice of time)
+         */
+        private quantum: number = 1;
+
+        
+        /**
+         * 
+         * @param inputProcess Dãy các tiến trình đầu vào
+         * @param quantum lát thời gian
+         */
+        constructor(inputProcess: Array<Process>, quantum: number) {
+            super(inputProcess);
+            this.Quantum = quantum;
+        }
+
+        /**
+         * Điều phối SJF
+         */
+        public scheduling(): Storyboard {
+            var story = new Storyboard();
+
+            return story;
+        }
+
+        get Quantum(): number {
+            return this.quantum;
+        }
+        set Quantum(quantum: number) {
+            this.quantum = quantum;
+        }
+
     }
 
 }
