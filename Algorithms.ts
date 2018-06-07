@@ -436,7 +436,7 @@ export module Algorithm {
         }
 
         /**
-         * Điều phối SJF
+         * Điều phối SRTF
          */
         public scheduling(): Storyboard {
             var story = new Storyboard();
@@ -468,7 +468,7 @@ export module Algorithm {
         }
 
         /**
-         * Điều phối SJF
+         * Điều phối Round Robin
          */
         public scheduling(): Storyboard {
             var story = new Storyboard();
