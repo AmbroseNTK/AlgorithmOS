@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>StoryEvent | AlgorithmOS API Documentation</title>
+	<title>RoundRobinScheduler | AlgorithmOS API Documentation</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -59,10 +59,10 @@
 					<a href="../modules/algorithm.html">Algorithm</a>
 				</li>
 				<li>
-					<a href="algorithm.storyevent.html">StoryEvent</a>
+					<a href="algorithm.roundrobinscheduler.html">RoundRobinScheduler</a>
 				</li>
 			</ul>
-			<h1>Class StoryEvent</h1>
+			<h1>Class RoundRobinScheduler</h1>
 		</div>
 	</div>
 </header>
@@ -72,7 +72,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Sự kiện xảy ra trong quá trình điều phối</p>
+						<p>Điều phối CPU theo cơ chế Round Robin. Tiến trình vào hàng đợi trước thì được điều phối trước. Tuy nhiên chúng chỉ được chiếm CPU trong độ dài thời gian là Quantum.</p>
 					</div>
 				</div>
 			</section>
@@ -80,8 +80,19 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">StoryEvent</span>
+						<a href="algorithm.scheduler.html" class="tsd-signature-type">Scheduler</a>
+						<ul class="tsd-hierarchy">
+							<li>
+								<span class="target">RoundRobinScheduler</span>
+							</li>
+						</ul>
 					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel">
+				<h3>Implements</h3>
+				<ul class="tsd-hierarchy">
+					<li><a href="../interfaces/algorithm.ischeduler.html" class="tsd-signature-type">IScheduler</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -91,29 +102,27 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="algorithm.storyevent.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="algorithm.roundrobinscheduler.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.storyevent.html#description" class="tsd-kind-icon">description</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.storyevent.html#proccessname" class="tsd-kind-icon">proccess<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.storyevent.html#time" class="tsd-kind-icon">time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.roundrobinscheduler.html#quantum" class="tsd-kind-icon">quantum</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.storyevent.html#description-1" class="tsd-kind-icon">Description</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.storyevent.html#processname" class="tsd-kind-icon">Process<wbr>Name</a></li>
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.storyevent.html#time-1" class="tsd-kind-icon">Time</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="algorithm.roundrobinscheduler.html#iomode" class="tsd-kind-icon">IOMode</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><a href="algorithm.roundrobinscheduler.html#inputprocess" class="tsd-kind-icon">Input<wbr>Process</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.roundrobinscheduler.html#quantum-1" class="tsd-kind-icon">Quantum</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.storyevent.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.roundrobinscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a></li>
 							</ul>
 						</section>
 					</div>
@@ -121,17 +130,18 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Constructors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
-					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Story<wbr>Event<span class="tsd-signature-symbol">(</span>time<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.storyevent.html" class="tsd-signature-type">StoryEvent</a></li>
+					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Round<wbr>Robin<wbr>Scheduler<span class="tsd-signature-symbol">(</span>inputProcess<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span>, quantum<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.roundrobinscheduler.html" class="tsd-signature-type">RoundRobinScheduler</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Overrides <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L214">Algorithms.ts:214</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L457">Algorithms.ts:457</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -139,31 +149,23 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>time: <span class="tsd-signature-type">number</span></h5>
+									<h5>inputProcess: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Thời gian xảy ra sự kiện</p>
+											<p>Dãy các tiến trình đầu vào</p>
 										</div>
 									</div>
 								</li>
 								<li>
-									<h5>processName: <span class="tsd-signature-type">string</span></h5>
+									<h5>quantum: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>Tiến trình gây nên sự kiện</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5>description: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Thông tin mô tả</p>
+											<p>lát thời gian</p>
 										</div>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="algorithm.storyevent.html" class="tsd-signature-type">StoryEvent</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="algorithm.roundrobinscheduler.html" class="tsd-signature-type">RoundRobinScheduler</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -171,64 +173,85 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="description" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> description</h3>
-					<div class="tsd-signature tsd-kind-icon">description<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="quantum" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> quantum</h3>
+					<div class="tsd-signature tsd-kind-icon">quantum<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;1</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L214">Algorithms.ts:214</a></li>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L457">Algorithms.ts:457</a></li>
 						</ul>
 					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="proccessname" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> proccess<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">proccess<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L213">Algorithms.ts:213</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="time" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> time</h3>
-					<div class="tsd-signature tsd-kind-icon">time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L212">Algorithms.ts:212</a></li>
-						</ul>
-					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Lát thời gian (Slice of time)</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
-					<a name="description-1" class="tsd-anchor"></a>
-					<h3>Description</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> Description<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> Description<span class="tsd-signature-symbol">(</span>description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+					<a name="iomode" class="tsd-anchor"></a>
+					<h3>IOMode</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> IOMode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> IOMode<span class="tsd-signature-symbol">(</span>ioMode<span class="tsd-signature-symbol">: </span><a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#iomode-1">IOMode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L242">Algorithms.ts:242</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L348">Algorithms.ts:348</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#iomode-1">IOMode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L246">Algorithms.ts:246</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L351">Algorithms.ts:351</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>description: <span class="tsd-signature-type">string</span></h5>
+									<h5>ioMode: <a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+					<a name="inputprocess" class="tsd-anchor"></a>
+					<h3>Input<wbr>Process</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> InputProcess<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> InputProcess<span class="tsd-signature-symbol">(</span>inputProcess<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L341">Algorithms.ts:341</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L344">Algorithms.ts:344</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>inputProcess: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -236,49 +259,17 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
-					<a name="processname" class="tsd-anchor"></a>
-					<h3>Process<wbr>Name</h3>
+					<a name="quantum-1" class="tsd-anchor"></a>
+					<h3>Quantum</h3>
 					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ProcessName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> ProcessName<span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> Quantum<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> Quantum<span class="tsd-signature-symbol">(</span>quantum<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L235">Algorithms.ts:235</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L238">Algorithms.ts:238</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>processName: <span class="tsd-signature-type">string</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
-					<a name="time-1" class="tsd-anchor"></a>
-					<h3>Time</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> Time<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> Time<span class="tsd-signature-symbol">(</span>time<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L227">Algorithms.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L479">Algorithms.ts:479</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
@@ -286,13 +277,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L231">Algorithms.ts:231</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L482">Algorithms.ts:482</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>time: <span class="tsd-signature-type">number</span></h5>
+									<h5>quantum: <span class="tsd-signature-type">number</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -303,19 +294,25 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="tostring" class="tsd-anchor"></a>
-					<h3>to<wbr>String</h3>
+					<a name="scheduling" class="tsd-anchor"></a>
+					<h3>scheduling</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">to<wbr>String<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">scheduling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
+								<p>Implementation of <a href="../interfaces/algorithm.ischeduler.html">IScheduler</a>.<a href="../interfaces/algorithm.ischeduler.html#scheduling">scheduling</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L250">Algorithms.ts:250</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L473">Algorithms.ts:473</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Điều phối SJF</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -349,9 +346,33 @@
 					<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="algorithm.queue.html" class="tsd-kind-icon">Queue</a>
 					</li>
-					<li class=" tsd-kind-class tsd-parent-kind-module">
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-class tsd-parent-kind-module">
 						<a href="algorithm.roundrobinscheduler.html" class="tsd-kind-icon">Round<wbr>Robin<wbr>Scheduler</a>
+						<ul>
+							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
+								<a href="algorithm.roundrobinscheduler.html#constructor" class="tsd-kind-icon">constructor</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="algorithm.roundrobinscheduler.html#quantum" class="tsd-kind-icon">quantum</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+								<a href="algorithm.roundrobinscheduler.html#iomode" class="tsd-kind-icon">IOMode</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
+								<a href="algorithm.roundrobinscheduler.html#inputprocess" class="tsd-kind-icon">Input<wbr>Process</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="algorithm.roundrobinscheduler.html#quantum-1" class="tsd-kind-icon">Quantum</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="algorithm.roundrobinscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="algorithm.scheduler.html" class="tsd-kind-icon">Scheduler</a>
 					</li>
@@ -361,39 +382,9 @@
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="algorithm.srtfscheduler.html" class="tsd-kind-icon">Srtf<wbr>Scheduler</a>
 					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-module">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="algorithm.storyevent.html" class="tsd-kind-icon">Story<wbr>Event</a>
-						<ul>
-							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="algorithm.storyevent.html#constructor" class="tsd-kind-icon">constructor</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="algorithm.storyevent.html#description" class="tsd-kind-icon">description</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="algorithm.storyevent.html#proccessname" class="tsd-kind-icon">proccess<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="algorithm.storyevent.html#time" class="tsd-kind-icon">time</a>
-							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class">
-								<a href="algorithm.storyevent.html#description-1" class="tsd-kind-icon">Description</a>
-							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class">
-								<a href="algorithm.storyevent.html#processname" class="tsd-kind-icon">Process<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-accessor tsd-parent-kind-class">
-								<a href="algorithm.storyevent.html#time-1" class="tsd-kind-icon">Time</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="algorithm.storyevent.html#tostring" class="tsd-kind-icon">to<wbr>String</a>
-							</li>
-						</ul>
 					</li>
-				</ul>
-				<ul class="after-current">
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="algorithm.storyboard.html" class="tsd-kind-icon">Storyboard</a>
 					</li>

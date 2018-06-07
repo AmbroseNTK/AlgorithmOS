@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Bộ điều phối CPU</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -77,6 +84,15 @@
 						<ul class="tsd-hierarchy">
 							<li>
 								<a href="algorithm.fcfsscheduler.html" class="tsd-signature-type">FcfsScheduler</a>
+							</li>
+							<li>
+								<a href="algorithm.sjfscheduler.html" class="tsd-signature-type">SjfScheduler</a>
+							</li>
+							<li>
+								<a href="algorithm.srtfscheduler.html" class="tsd-signature-type">SrtfScheduler</a>
+							</li>
+							<li>
+								<a href="algorithm.roundrobinscheduler.html" class="tsd-signature-type">RoundRobinScheduler</a>
 							</li>
 						</ul>
 					</li>
@@ -96,11 +112,13 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.scheduler.html#inputprocess" class="tsd-kind-icon">input<wbr>Process</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.scheduler.html#iomode" class="tsd-kind-icon">io<wbr>Mode</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.scheduler.html#iomode-1" class="tsd-kind-icon">IOMode</a></li>
 								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.scheduler.html#inputprocess-1" class="tsd-kind-icon">Input<wbr>Process</a></li>
 							</ul>
 						</section>
@@ -119,7 +137,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/a659dc4/Algorithms.ts#L329">Algorithms.ts:329</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L336">Algorithms.ts:336</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -141,13 +159,60 @@
 					<div class="tsd-signature tsd-kind-icon">input<wbr>Process<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/a659dc4/Algorithms.ts#L329">Algorithms.ts:329</a></li>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L332">Algorithms.ts:332</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="iomode" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> io<wbr>Mode</h3>
+					<div class="tsd-signature tsd-kind-icon">io<wbr>Mode<span class="tsd-signature-symbol">:</span> <a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a><span class="tsd-signature-symbol"> =&nbsp;IOType.Multi</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L336">Algorithms.ts:336</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Kiểu của thiết bị nhập xuất (IO Device)</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="iomode-1" class="tsd-anchor"></a>
+					<h3>IOMode</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> IOMode<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> IOMode<span class="tsd-signature-symbol">(</span>ioMode<span class="tsd-signature-symbol">: </span><a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L348">Algorithms.ts:348</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L351">Algorithms.ts:351</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>ioMode: <a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
 					<a name="inputprocess-1" class="tsd-anchor"></a>
 					<h3>Input<wbr>Process</h3>
@@ -159,7 +224,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/a659dc4/Algorithms.ts#L334">Algorithms.ts:334</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L341">Algorithms.ts:341</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -167,7 +232,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/a659dc4/Algorithms.ts#L337">Algorithms.ts:337</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/9d60e1a/Algorithms.ts#L344">Algorithms.ts:344</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -210,6 +275,9 @@
 					<li class=" tsd-kind-class tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="algorithm.queue.html" class="tsd-kind-icon">Queue</a>
 					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="algorithm.roundrobinscheduler.html" class="tsd-kind-icon">Round<wbr>Robin<wbr>Scheduler</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
@@ -221,6 +289,12 @@
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="algorithm.scheduler.html#inputprocess" class="tsd-kind-icon">input<wbr>Process</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="algorithm.scheduler.html#iomode" class="tsd-kind-icon">io<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="algorithm.scheduler.html#iomode-1" class="tsd-kind-icon">IOMode</a>
+							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
 								<a href="algorithm.scheduler.html#inputprocess-1" class="tsd-kind-icon">Input<wbr>Process</a>
 							</li>
@@ -228,6 +302,12 @@
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="algorithm.sjfscheduler.html" class="tsd-kind-icon">Sjf<wbr>Scheduler</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-module">
+						<a href="algorithm.srtfscheduler.html" class="tsd-kind-icon">Srtf<wbr>Scheduler</a>
+					</li>
 					<li class=" tsd-kind-class tsd-parent-kind-module">
 						<a href="algorithm.storyevent.html" class="tsd-kind-icon">Story<wbr>Event</a>
 					</li>
