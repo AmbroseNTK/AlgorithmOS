@@ -97,12 +97,14 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.storyboard.html#clock" class="tsd-kind-icon">clock</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.storyboard.html#list" class="tsd-kind-icon">list</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="algorithm.storyboard.html#clock-1" class="tsd-kind-icon">Clock</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="algorithm.storyboard.html#story" class="tsd-kind-icon">Story</a></li>
 							</ul>
 						</section>
@@ -110,6 +112,8 @@
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.storyboard.html#addevent" class="tsd-kind-icon">add<wbr>Event</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.storyboard.html#putevent" class="tsd-kind-icon">put<wbr>Event</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.storyboard.html#tick" class="tsd-kind-icon">tick</a></li>
 							</ul>
 						</section>
 					</div>
@@ -127,7 +131,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L261">Algorithms.ts:261</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L235">Algorithms.ts:235</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></h4>
@@ -138,18 +142,55 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="clock" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> clock</h3>
+					<div class="tsd-signature tsd-kind-icon">clock<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L235">Algorithms.ts:235</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Bộ đếm thời gian các biến cố xảy ra</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="list" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> list</h3>
 					<div class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.storyevent.html" class="tsd-signature-type">StoryEvent</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L261">Algorithms.ts:261</a></li>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L230">Algorithms.ts:230</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Danh sách các sự kiện</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="clock-1" class="tsd-anchor"></a>
+					<h3>Clock</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> Clock<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L270">Algorithms.ts:270</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
 					<a name="story" class="tsd-anchor"></a>
 					<h3>Story</h3>
@@ -160,7 +201,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L267">Algorithms.ts:267</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L242">Algorithms.ts:242</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.storyevent.html" class="tsd-signature-type">StoryEvent</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -180,7 +221,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L275">Algorithms.ts:275</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L250">Algorithms.ts:250</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -197,6 +238,65 @@
 									</div>
 								</li>
 							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="putevent" class="tsd-anchor"></a>
+					<h3>put<wbr>Event</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">put<wbr>Event<span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, description<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L259">Algorithms.ts:259</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Thêm một sự kiện mới vào chuỗi sự kiện ngay tại thời điểm hiện tại</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>processName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Tên tiến trình</p>
+									</div>
+								</li>
+								<li>
+									<h5>description: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Mô tả</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="tick" class="tsd-anchor"></a>
+					<h3>tick</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">tick<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L266">Algorithms.ts:266</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Tăng thời gian</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
@@ -255,13 +355,25 @@
 								<a href="algorithm.storyboard.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="algorithm.storyboard.html#clock" class="tsd-kind-icon">clock</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="algorithm.storyboard.html#list" class="tsd-kind-icon">list</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="algorithm.storyboard.html#clock-1" class="tsd-kind-icon">Clock</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="algorithm.storyboard.html#story" class="tsd-kind-icon">Story</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="algorithm.storyboard.html#addevent" class="tsd-kind-icon">add<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="algorithm.storyboard.html#putevent" class="tsd-kind-icon">put<wbr>Event</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="algorithm.storyboard.html#tick" class="tsd-kind-icon">tick</a>
 							</li>
 						</ul>
 					</li>

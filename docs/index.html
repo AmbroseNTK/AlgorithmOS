@@ -87,8 +87,8 @@
 					<p></br>
 						B3: Bắt đầu import và sử dụng
 				</p></p>
-				<p><h2>Đoạn code mẫu</h2>
-				Điều phối hỗn hợp CPU+IO 2 tiến trình như sau:</p>
+				<p><h2>Code mẫu</h2>
+				Điều phối hỗn hợp CPU+IO 2 tiến trình như sau và sử dụng chiến lược FCFS với IO device chung:</p>
 				<table>
 					<thead>
 						<tr>
@@ -103,48 +103,69 @@
 						<tr>
 							<td><code>P1</code></td>
 							<td>1</td>
-							<td>4</td>
 							<td>2</td>
+							<td>1</td>
 							<td>3</td>
 						</tr>
 						<tr>
 							<td><code>P2</code></td>
 							<td>0</td>
-							<td>2</td>
+							<td>1</td>
 							<td>3</td>
-							<td>5</td>
+							<td>2</td>
 						</tr>
 					</tbody>
 				</table>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { Algorithm} <span class="hljs-keyword">from</span> <span class="hljs-string">'./Algorithms'</span>;
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> { Algorithm <span class="hljs-keyword">as</span> al } <span class="hljs-keyword">from</span> <span class="hljs-string">'./Algorithms'</span>
 
-<span class="hljs-comment">//Tạo chuỗi các tác vụ của tiến trình 1</span>
-<span class="hljs-keyword">var</span> task_proc1 = <span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.Arrive,<span class="hljs-number">1</span>,<span class="hljs-literal">null</span>);
-task_proc1
-    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">4</span>,<span class="hljs-literal">null</span>))
-    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.IO,<span class="hljs-number">2</span>,<span class="hljs-literal">null</span>))
-    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">3</span>,<span class="hljs-literal">null</span>));
+<span class="hljs-comment">//Tạo hàng đợi các tác vụ cho tiến trình</span>
 
-<span class="hljs-comment">//Tạo chuỗi các tác vụ của tiến trình 2</span>
-<span class="hljs-keyword">var</span> task_proc2 = <span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.Arrive,<span class="hljs-number">0</span>,<span class="hljs-literal">null</span>);
-task_proc2
-    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">2</span>,<span class="hljs-literal">null</span>))
-    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.IO,<span class="hljs-number">3</span>,<span class="hljs-literal">null</span>))
-    .join(<span class="hljs-keyword">new</span> Algorithm.Task(Algorithm.TaskType.CPU,<span class="hljs-number">5</span>,<span class="hljs-literal">null</span>));
+<span class="hljs-keyword">var</span> taskQueue1 = <span class="hljs-keyword">new</span> al.Queue&lt;al.Task&gt;();
+taskQueue1.enQueue(<span class="hljs-keyword">new</span> al.Task(al.TaskType.CPU, <span class="hljs-number">2</span>));
+taskQueue1.enQueue(<span class="hljs-keyword">new</span> al.Task(al.TaskType.IO, <span class="hljs-number">1</span>));
+taskQueue1.enQueue(<span class="hljs-keyword">new</span> al.Task(al.TaskType.CPU, <span class="hljs-number">3</span>));
 
-<span class="hljs-comment">//Tạo các tiến trình</span>
-<span class="hljs-keyword">var</span> proc1=<span class="hljs-keyword">new</span> Algorithm.Process(<span class="hljs-string">"P1"</span>,task_proc1);
-<span class="hljs-keyword">var</span> proc2=<span class="hljs-keyword">new</span> Algorithm.Process(<span class="hljs-string">"P2"</span>,task_proc2);
+<span class="hljs-keyword">var</span> taskQueue2 = <span class="hljs-keyword">new</span> al.Queue&lt;al.Task&gt;();
+taskQueue2.enQueue(<span class="hljs-keyword">new</span> al.Task(al.TaskType.CPU, <span class="hljs-number">1</span>));
+taskQueue2.enQueue(<span class="hljs-keyword">new</span> al.Task(al.TaskType.IO, <span class="hljs-number">3</span>));
+taskQueue2.enQueue(<span class="hljs-keyword">new</span> al.Task(al.TaskType.CPU, <span class="hljs-number">2</span>));
+
 
 <span class="hljs-comment">//Tạo danh sách các tiến trình</span>
-<span class="hljs-keyword">var</span> procList = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>&lt;Algorithm.Process&gt;(proc1,proc2);
+<span class="hljs-keyword">var</span> procList = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>&lt;al.Process&gt;();
+procList.push(<span class="hljs-keyword">new</span> al.Process(<span class="hljs-string">"P1"</span>, <span class="hljs-number">0</span>, taskQueue1));
+procList.push(<span class="hljs-keyword">new</span> al.Process(<span class="hljs-string">"P2"</span>, <span class="hljs-number">1</span>, taskQueue2));
 
 <span class="hljs-comment">//Chọn thuật toán điều phối</span>
-<span class="hljs-keyword">var</span> scheduler = <span class="hljs-keyword">new</span> Algorithm.FcfsScheduler(procList);
+<span class="hljs-keyword">var</span> scheduler = <span class="hljs-keyword">new</span> al.FcfsScheduler(procList);
+
+<span class="hljs-comment">//Chọn kiểu thiết bị nhập xuất, mặc định là Multi</span>
+scheduler.IOMode = al.IOType.Single;
 
 <span class="hljs-comment">//Nhận kết quả trả về là một Storyboard</span>
-<span class="hljs-keyword">var</span> story:Algorithm.Storyboard = scheduler.scheduling();
+<span class="hljs-keyword">var</span> story: al.Storyboard = scheduler.scheduling();
+
+<span class="hljs-comment">//In ra màn hình kết quả</span>
+story.Story.forEach(<span class="hljs-function">(<span class="hljs-params">value: al.StoryEvent, index: <span class="hljs-built_in">number</span>, array: al.StoryEvent[]</span>) =&gt;</span> {
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"Time: "</span> + value.Time + <span class="hljs-string">"; Proc: "</span> + value.ProcessName + <span class="hljs-string">"; Task: "</span> + value.Description);
+});
 </code></pre>
+				<p>Kết quả thực hiện thuật toán:</br></p>
+				<pre><code><span class="hljs-keyword">Time:</span> 0; Proc: P1; Task: [AT] Arrival
+<span class="hljs-keyword">Time:</span> 0; Proc: P1; Task: [IN] CPU
+<span class="hljs-keyword">Time:</span> 1; Proc: P2; Task: [AT] Arrival
+<span class="hljs-keyword">Time:</span> 1; Proc: P1; Task: [IN] CPU
+<span class="hljs-keyword">Time:</span> 2; Proc: P1; Task: [IN] IO
+<span class="hljs-keyword">Time:</span> 2; Proc: P2; Task: [IN] CPU
+<span class="hljs-keyword">Time:</span> 3; Proc: P2; Task: [IN] IO
+<span class="hljs-keyword">Time:</span> 3; Proc: P1; Task: [IN] CPU
+<span class="hljs-keyword">Time:</span> 4; Proc: P2; Task: [IN] IO
+<span class="hljs-keyword">Time:</span> 4; Proc: P1; Task: [IN] CPU
+<span class="hljs-keyword">Time:</span> 5; Proc: P2; Task: [IN] IO
+<span class="hljs-keyword">Time:</span> 5; Proc: P1; Task: [IN] CPU
+<span class="hljs-keyword">Time:</span> 6; Proc: P2; Task: [IN] CPU
+<span class="hljs-keyword">Time:</span> 7; Proc: P2; Task: [IN] CPU
+</code></pre><p><strong>Giải thích ý nghĩa</strong>: Mỗi một dòng là một sự kiện trong quá trình điều phối. Mỗi dòng có thời gian xảy ra sự kiện (Time), Tiến trình gây nên sự kiện (Proc), Tác vụ được làm trong sự kiện đó (Task). [AT] nghĩa là tại một thời điểm xác định. [IN] nghĩa  là trong khoảng thời gian từ a đến b. VD: [IN] của 2 nghĩa là trong khoảng thời gian từ 2 đến 3.</p>
 				<p><strong>Tham khảo thêm trong tài liệu API</strong></p>
 			</div>
 		</div>

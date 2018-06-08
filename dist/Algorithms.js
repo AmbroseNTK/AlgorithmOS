@@ -1,39 +1,25 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
 var Algorithm;
 (function (Algorithm) {
     /**
      * Các kiểu tác vụ trong một tiến trình
      */
-    var TaskType;
+    let TaskType;
     (function (TaskType) {
-        /**
-         * Tác vụ đến
-         */
-        TaskType[TaskType["Arrive"] = 0] = "Arrive";
         /**
          * Tác vụ CPU
          */
-        TaskType[TaskType["CPU"] = 1] = "CPU";
+        TaskType[TaskType["CPU"] = 0] = "CPU";
         /**
          * Tác vụ  IO
          */
-        TaskType[TaskType["IO"] = 2] = "IO";
+        TaskType[TaskType["IO"] = 1] = "IO";
     })(TaskType = Algorithm.TaskType || (Algorithm.TaskType = {}));
     /**
      * Kiểu của IO
      */
-    var IOType;
+    let IOType;
     (function (IOType) {
         /**
          * Chỉ có một thiết bị IO (IO chung)
@@ -47,353 +33,377 @@ var Algorithm;
     /**
      * Tác vụ của tiến trình
      */
-    var Task = /** @class */ (function () {
-        /**
-         *
-         * @param type Kiểu tác vụ
-         * @param time Thời gian thực hiện
-         * @param nextTask Tác vụ tiếp theo
-         */
-        function Task(type, time, nextTask) {
-            this.isFinished = false;
-            this.isArrived = false;
+    class Task {
+        constructor(type, duration) {
             this.type = type;
-            this.time = time;
-            this.nextTask = nextTask;
-            this.isArrived = (this.time == 0 && this.type == TaskType.Arrive);
+            this.duration = duration;
         }
-        /**
-         * Nối tác vụ tiếp theo vào tác vụ hiện tại
-         * @param nextTask Tác vụ tiếp theo
-         */
-        Task.prototype.join = function (nextTask) {
-            this.nextTask = nextTask;
-            return this.nextTask;
-        };
-        Object.defineProperty(Task.prototype, "IsFinished", {
-            /**
-             * Sự hoàn thành của tác vụ
-             */
-            get: function () {
-                return this.isFinished || this.type == TaskType.Arrive;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Kiểm tra sự hoàn thành của tiến trình
-         */
-        Task.prototype.isEnding = function () {
-            return this.isFinished && this.nextTask == null;
-        };
-        /**
-         * Di chuyển đến tác vụ tiếp theo nếu có
-         */
-        Task.prototype.moveNext = function () {
-            if (this.IsFinished && this.nextTask != null) {
-                this.type = this.nextTask.type;
-                this.time = this.nextTask.time;
-                this.nextTask = this.nextTask.nextTask;
-                return true;
-            }
-            return false;
-        };
-        /**
-         * Trừ bớt một đơn vị thời gian trong hoạt động của tác vụ
-         */
-        Task.prototype.decreaseTime = function () {
-            if (this.time == 0 || this.type == TaskType.Arrive) {
-                this.isFinished = true;
-            }
-            else {
-                this.time--;
-            }
-        };
-        /**
-         * Trả về chuỗi kiểu: <Kiểu>;<Thời gian>;
-         */
-        Task.prototype.toString = function () {
-            console.log(this.type + " ; " + this.time + " ; ");
-        };
-        Object.defineProperty(Task.prototype, "Time", {
-            /**
-             * Thời gian thực hiện một tác vụ. Đối với tác vụ kiểu Arrive thì đây là thời gian tiến trình bắt đầu chạy
-             */
-            get: function () {
-                return this.time;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Task.prototype, "Type", {
-            /**
-             * Kiểu của tác vụ
-             */
-            get: function () {
-                return this.type;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(Task.prototype, "IsArrived", {
-            get: function () {
-                return this.isArrived;
-            },
-            set: function (arrived) {
-                this.isArrived = arrived;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Kiểm tra xem các tiến trình đã đến hay chưa
-         * @param listProcs Dãy các tiến trình
-         */
-        Task.allArrived = function (listProcs) {
-            listProcs.forEach(function (value, index, array) {
-                if (!value.getTask().IsArrived)
-                    return false;
-            });
-            return true;
-        };
-        Task.prototype.logAll = function () {
-            var result = "";
-            var current = new Task(this.Type, this.time, this.nextTask);
-            while (current != null) {
-                result += current.toString() + "\n";
-                current = current.nextTask;
-            }
-            return result;
-        };
-        return Task;
-    }());
+        get Type() {
+            return this.type;
+        }
+        get Duration() {
+            return this.duration;
+        }
+        run() {
+            this.duration--;
+        }
+        isFinished() {
+            return this.duration == 0;
+        }
+    }
     Algorithm.Task = Task;
     /**
      * Tiến trình
      */
-    var Process = /** @class */ (function () {
-        /**
-         *
-         * @param processName Tên tiến trình
-         * @param task Tác vụ
-         */
-        function Process(processName, task) {
-            this.processName = processName;
-            this.task = task;
+    class Process {
+        constructor(processID, arrivalTime, taskQueue) {
+            this.processID = processID;
+            this.taskQueue = taskQueue;
+            this.arrivalTime = arrivalTime;
+            this.ioFlag = false;
         }
-        Process.prototype.getTask = function () {
-            return this.task;
-        };
-        Object.defineProperty(Process.prototype, "ProcessName", {
-            get: function () {
-                return this.processName;
-            },
-            set: function (proccessName) {
-                this.processName = proccessName;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        /**
-         * Kiểm tra sự hoàn thành của tiến trình
-         */
-        Process.prototype.isFinished = function () {
-            return this.task.isEnding();
-        };
-        /**
-         * Kiểm tra các tiến trình có hoàn thành hết chưa
-         * @param listProcs Dãy các tiến trình cần kiểm tra
-         */
-        Process.allProcessFinished = function (listProcs) {
-            listProcs.forEach(function (value, index, array) {
-                if (!value.isFinished())
+        get TaskQueue() {
+            return this.taskQueue;
+        }
+        set TaskQueue(queue) {
+            this.taskQueue = queue;
+        }
+        get ProcessID() {
+            return this.processID;
+        }
+        set ProcessID(id) {
+            this.processID = id;
+        }
+        get ArrivalTime() {
+            return this.arrivalTime;
+        }
+        static isAllFinished(processList) {
+            for (let i = 0; i < processList.length; i++) {
+                if (!processList[i].taskQueue.isEmpty())
                     return false;
-            });
+            }
             return true;
-        };
-        /**
-         * Kiểm tra tất cả các tiến trình đã bắt đầu hay chưa
-         * @param listProcs Dãy các tiến trình cần kiểm tra
-         */
-        Process.allProcessArrived = function (listProcs) {
-            return Task.allArrived(listProcs);
-        };
-        return Process;
-    }());
+        }
+        static peekProcess(processList, queue) {
+            let name = queue.peek();
+            if (name == undefined) {
+                return undefined;
+            }
+            else {
+                for (let i = 0; i < processList.length; i++) {
+                    if (processList[i].ProcessID == name)
+                        return processList[i];
+                }
+                return undefined;
+            }
+        }
+        get IOFlag() {
+            return this.ioFlag;
+        }
+        set IOFlag(flag) {
+            this.ioFlag = flag;
+        }
+    }
     Algorithm.Process = Process;
     /**
      * Sự kiện xảy ra trong quá trình điều phối
      */
-    var StoryEvent = /** @class */ (function () {
+    class StoryEvent {
         /**
          *
          * @param time Thời gian xảy ra sự kiện
          * @param processName Tiến trình gây nên sự kiện
          * @param description Thông tin mô tả
          */
-        function StoryEvent(time, processName, description) {
+        constructor(time, processName, description) {
             this.time = time;
             this.proccessName = processName;
             this.description = description;
         }
-        Object.defineProperty(StoryEvent.prototype, "Time", {
-            get: function () {
-                return this.time;
-            },
-            set: function (time) {
-                this.time = time;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(StoryEvent.prototype, "ProcessName", {
-            get: function () {
-                return this.proccessName;
-            },
-            set: function (processName) {
-                this.proccessName = processName;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        Object.defineProperty(StoryEvent.prototype, "Description", {
-            get: function () {
-                return this.description;
-            },
-            set: function (description) {
-                this.description = description;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        StoryEvent.prototype.toString = function () {
+        get Time() {
+            return this.time;
+        }
+        set Time(time) {
+            this.time = time;
+        }
+        get ProcessName() {
+            return this.proccessName;
+        }
+        set ProcessName(processName) {
+            this.proccessName = processName;
+        }
+        get Description() {
+            return this.description;
+        }
+        set Description(description) {
+            this.description = description;
+        }
+        toString() {
             return this.time + ";" + this.proccessName + ";" + this.description;
-        };
-        return StoryEvent;
-    }());
+        }
+    }
     Algorithm.StoryEvent = StoryEvent;
     /**
      * Chuỗi các sự kiện
      */
-    var Storyboard = /** @class */ (function () {
-        function Storyboard() {
+    class Storyboard {
+        constructor() {
             this.list = new Array();
+            this.clock = 0;
         }
-        Object.defineProperty(Storyboard.prototype, "Story", {
-            get: function () {
-                return this.list;
-            },
-            enumerable: true,
-            configurable: true
-        });
+        get Story() {
+            return this.list;
+        }
         /**
          * Thêm sự kiện mới vào chuỗi các sự kiện
          * @param event Sự kiện mới
          */
-        Storyboard.prototype.addEvent = function (event) {
+        addEvent(event) {
             this.list.push(event);
-        };
-        return Storyboard;
-    }());
+        }
+        putEvent(processName, description) {
+            this.list.push(new StoryEvent(this.clock, processName, description));
+        }
+        tick() {
+            this.clock++;
+        }
+        get Clock() {
+            return this.clock;
+        }
+    }
     Algorithm.Storyboard = Storyboard;
     /**
      * Hàng đợi
      */
-    var Queue = /** @class */ (function () {
-        function Queue() {
+    class Queue {
+        constructor() {
             this.list = new Array();
         }
         /**
          * Nhét phần tử mới vào hàng đợi
          * @param element Phần tử cần nhét
          */
-        Queue.prototype.enQueue = function (element) {
+        enQueue(element) {
             this.list.push(element);
-        };
+        }
         /**
          * Lấy phần tử đầu ra khỏi hàng đợi
          */
-        Queue.prototype.deQueue = function () {
+        deQueue() {
             return this.list.shift();
-        };
+        }
         /**
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
-        Queue.prototype.viewTop = function () {
+        peek() {
             if (this.list.length != 0)
                 return this.list[0];
             return undefined;
-        };
+        }
         /**
          * Lấy độ dài hàng đợi
          */
-        Queue.prototype.getLength = function () {
+        getLength() {
             return this.list.length;
-        };
-        return Queue;
-    }());
+        }
+        isEmpty() {
+            return this.list.length == 0;
+        }
+    }
     Algorithm.Queue = Queue;
-    var Scheduler = /** @class */ (function () {
-        function Scheduler(inputProcess) {
+    /**
+     * Bộ điều phối CPU
+     */
+    class Scheduler {
+        constructor(inputProcess) {
+            /**
+             * Kiểu của thiết bị nhập xuất (IO Device)
+             */
+            this.ioMode = IOType.Multi;
             this.inputProcess = inputProcess;
         }
-        Object.defineProperty(Scheduler.prototype, "InputProcess", {
-            get: function () {
-                return this.inputProcess;
-            },
-            set: function (inputProcess) {
-                this.inputProcess = inputProcess;
-            },
-            enumerable: true,
-            configurable: true
-        });
-        return Scheduler;
-    }());
+        get InputProcess() {
+            return this.inputProcess;
+        }
+        set InputProcess(inputProcess) {
+            this.inputProcess = inputProcess;
+        }
+        get IOMode() {
+            return this.ioMode;
+        }
+        set IOMode(ioMode) {
+            this.ioMode = ioMode;
+        }
+    }
     Algorithm.Scheduler = Scheduler;
     /**
      * Điều phối tiến trình CPU theo cơ chế FCFS (First-Come-First-Serve). Tiến trình vào trước được xử lý trước
      */
-    var FcfsScheduler = /** @class */ (function (_super) {
-        __extends(FcfsScheduler, _super);
+    class FcfsScheduler extends Scheduler {
         /**
          *
          * @param inputProcess Dãy các tiến trình đầu vào
          */
-        function FcfsScheduler(inputProcess) {
-            return _super.call(this, inputProcess) || this;
+        constructor(inputProcess) {
+            super(inputProcess);
         }
         /**
          * Điều phối FCFS
          */
-        FcfsScheduler.prototype.scheduling = function () {
-            var story = new Storyboard();
-            var time = 0;
-            var currentProcess = undefined;
-            //Hàng đợi thực hiện CPU
-            var cpuQueue = new Queue();
-            while (!Process.allProcessArrived(this.InputProcess)) {
-                this.InputProcess.forEach(function (value, index, array) {
-                    var currentTask = value.getTask();
-                    if (currentTask.Time == time) {
-                        if (currentTask.Type == TaskType.Arrive) {
-                            cpuQueue.enQueue(value);
-                        }
-                    }
-                });
-                if (cpuQueue.getLength() == 1) {
-                    currentProcess = cpuQueue.deQueue();
-                    if (currentProcess != undefined) {
-                        currentProcess.getTask().moveNext();
+        scheduling() {
+            let story = new Storyboard();
+            let cpuQueue = new Queue();
+            let ioQueue = new Queue();
+            while (!Process.isAllFinished(this.inputProcess)) {
+                for (let i = 0; i < this.inputProcess.length; i++) {
+                    if (this.inputProcess[i].ArrivalTime == story.Clock) {
+                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                        story.putEvent(this.inputProcess[i].ProcessID, "[AT] Arrival");
                     }
                 }
+                if (!cpuQueue.isEmpty()) {
+                    let proc = Process.peekProcess(this.inputProcess, cpuQueue);
+                    if (proc != undefined) {
+                        if (!proc.TaskQueue.isEmpty()) {
+                            let task = proc.TaskQueue.peek();
+                            if (task != undefined) {
+                                if (task.Type == TaskType.CPU) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock, proc.ProcessID, "[IN] CPU"));
+                                    }
+                                    if (task.isFinished()) {
+                                        proc.TaskQueue.deQueue();
+                                        cpuQueue.deQueue();
+                                        if (this.ioMode == IOType.Multi) {
+                                            proc.IOFlag = true;
+                                        }
+                                        else {
+                                            ioQueue.enQueue(proc.ProcessID);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (this.ioMode == IOType.Multi) {
+                    for (let i = 0; i < this.inputProcess.length; i++) {
+                        if (this.inputProcess[i].IOFlag) {
+                            if (!this.inputProcess[i].TaskQueue.isEmpty()) {
+                                let task = this.inputProcess[i].TaskQueue.peek();
+                                if (task != undefined) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock + 1, this.inputProcess[i].ProcessID, "[IN] IO"));
+                                    }
+                                    else {
+                                        this.inputProcess[i].TaskQueue.deQueue();
+                                        this.inputProcess[i].IOFlag = false;
+                                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                else {
+                    if (!ioQueue.isEmpty()) {
+                        let proc = Process.peekProcess(this.inputProcess, ioQueue);
+                        if (proc != undefined) {
+                            if (!proc.TaskQueue.isEmpty()) {
+                                let task = proc.TaskQueue.peek();
+                                if (task != undefined) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "[IN] IO"));
+                                    }
+                                    if (task.isFinished()) {
+                                        proc.TaskQueue.deQueue();
+                                        ioQueue.deQueue();
+                                        cpuQueue.enQueue(proc.ProcessID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                story.tick();
             }
             return story;
-        };
-        FcfsScheduler.prototype.doCPU = function (proc) {
-        };
-        FcfsScheduler.prototype.doIO = function (proc) {
-        };
-        return FcfsScheduler;
-    }(Scheduler));
+        }
+    }
     Algorithm.FcfsScheduler = FcfsScheduler;
+    /**
+     * Điều phối CPU theo cơ chế SJF (Shortest Job First). Tiến trình yêu cầu ít CPU hơn thì được thực thi trước. Tiến trình đang chạy không bị cướp CPU.
+     */
+    class SjfScheduler extends Scheduler {
+        /**
+         *
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess) {
+            super(inputProcess);
+        }
+        /**
+         * Điều phối SJF
+         */
+        scheduling() {
+            var story = new Storyboard();
+            return story;
+        }
+    }
+    Algorithm.SjfScheduler = SjfScheduler;
+    /**
+     * Điều phối CPU theo cơ chế SRTF (Shortest Recent Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
+     */
+    class SrtfScheduler extends Scheduler {
+        /**
+         *
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess) {
+            super(inputProcess);
+        }
+        /**
+         * Điều phối SRTF
+         */
+        scheduling() {
+            var story = new Storyboard();
+            return story;
+        }
+    }
+    Algorithm.SrtfScheduler = SrtfScheduler;
+    /**
+     * Điều phối CPU theo cơ chế Round Robin. Tiến trình vào hàng đợi trước thì được điều phối trước. Tuy nhiên chúng chỉ được chiếm CPU trong độ dài thời gian là Quantum.
+     */
+    class RoundRobinScheduler extends Scheduler {
+        /**
+         *
+         * @param inputProcess Dãy các tiến trình đầu vào
+         * @param quantum lát thời gian
+         */
+        constructor(inputProcess, quantum) {
+            super(inputProcess);
+            /**
+             * Lát thời gian (Slice of time)
+             */
+            this.quantum = 1;
+            this.Quantum = quantum;
+        }
+        /**
+         * Điều phối Round Robin
+         */
+        scheduling() {
+            var story = new Storyboard();
+            return story;
+        }
+        get Quantum() {
+            return this.quantum;
+        }
+        set Quantum(quantum) {
+            this.quantum = quantum;
+        }
+    }
+    Algorithm.RoundRobinScheduler = RoundRobinScheduler;
 })(Algorithm = exports.Algorithm || (exports.Algorithm = {}));

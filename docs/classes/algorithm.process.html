@@ -97,23 +97,26 @@
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.process.html#processname" class="tsd-kind-icon">process<wbr>Name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.process.html#task" class="tsd-kind-icon">task</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.process.html#arrivaltime" class="tsd-kind-icon">arrival<wbr>Time</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.process.html#ioflag" class="tsd-kind-icon">io<wbr>Flag</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.process.html#processid" class="tsd-kind-icon">processID</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="algorithm.process.html#taskqueue" class="tsd-kind-icon">task<wbr>Queue</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.process.html#processname-1" class="tsd-kind-icon">Process<wbr>Name</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="algorithm.process.html#arrivaltime-1" class="tsd-kind-icon">Arrival<wbr>Time</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.process.html#ioflag-1" class="tsd-kind-icon">IOFlag</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.process.html#processid-1" class="tsd-kind-icon">ProcessID</a></li>
+								<li class="tsd-kind-accessor tsd-parent-kind-class"><a href="algorithm.process.html#taskqueue-1" class="tsd-kind-icon">Task<wbr>Queue</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.process.html#gettask" class="tsd-kind-icon">get<wbr>Task</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.process.html#isfinished" class="tsd-kind-icon">is<wbr>Finished</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="algorithm.process.html#allprocessarrived" class="tsd-kind-icon">all<wbr>Process<wbr>Arrived</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="algorithm.process.html#allprocessfinished" class="tsd-kind-icon">all<wbr>Process<wbr>Finished</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="algorithm.process.html#isallfinished" class="tsd-kind-icon">is<wbr>All<wbr>Finished</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="algorithm.process.html#peekprocess" class="tsd-kind-icon">peek<wbr>Process</a></li>
 							</ul>
 						</section>
 					</div>
@@ -125,34 +128,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Process<span class="tsd-signature-symbol">(</span>processName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, task<span class="tsd-signature-symbol">: </span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Process<span class="tsd-signature-symbol">(</span>processID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, arrivalTime<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, taskQueue<span class="tsd-signature-symbol">: </span><a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L161">Algorithms.ts:161</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L94">Algorithms.ts:94</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>processName: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Tên tiến trình</p>
-										</div>
-									</div>
+									<h5>processID: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>task: <a href="algorithm.task.html" class="tsd-signature-type">Task</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Tác vụ</p>
-										</div>
-									</div>
+									<h5>arrivalTime: <span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li>
+									<h5>taskQueue: <a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="algorithm.process.html" class="tsd-signature-type">Process</a></h4>
@@ -163,40 +157,129 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="processname" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> process<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">process<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="arrivaltime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> arrival<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">arrival<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L161">Algorithms.ts:161</a></li>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L89">Algorithms.ts:89</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Thời điểm tiến trình được đưa vào xử lý</p>
+						</div>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="task" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> task</h3>
-					<div class="tsd-signature tsd-kind-icon">task<span class="tsd-signature-symbol">:</span> <a href="algorithm.task.html" class="tsd-signature-type">Task</a></div>
+					<a name="ioflag" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> io<wbr>Flag</h3>
+					<div class="tsd-signature tsd-kind-icon">io<wbr>Flag<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L160">Algorithms.ts:160</a></li>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L94">Algorithms.ts:94</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Cờ báo thực thi IO</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="processid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> processID</h3>
+					<div class="tsd-signature tsd-kind-icon">processID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L80">Algorithms.ts:80</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Mã tiến trình duy nhất</p>
+						</div>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="taskqueue" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> task<wbr>Queue</h3>
+					<div class="tsd-signature tsd-kind-icon">task<wbr>Queue<span class="tsd-signature-symbol">:</span> <a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L84">Algorithms.ts:84</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Hàng đợi các tác vụ. Trong tiến trình,  các tác vụ được lưu trữ lần lượt trong hàng đợi để chờ được thực thi.</p>
+						</div>
+					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Accessors</h2>
-				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
-					<a name="processname-1" class="tsd-anchor"></a>
-					<h3>Process<wbr>Name</h3>
-					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ProcessName<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> ProcessName<span class="tsd-signature-symbol">(</span>proccessName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="arrivaltime-1" class="tsd-anchor"></a>
+					<h3>Arrival<wbr>Time</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ArrivalTime<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L175">Algorithms.ts:175</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L119">Algorithms.ts:119</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="ioflag-1" class="tsd-anchor"></a>
+					<h3>IOFlag</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> IOFlag<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> IOFlag<span class="tsd-signature-symbol">(</span>flag<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L155">Algorithms.ts:155</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L159">Algorithms.ts:159</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>flag: <span class="tsd-signature-type">boolean</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="processid-1" class="tsd-anchor"></a>
+					<h3>ProcessID</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> ProcessID<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> ProcessID<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L111">Algorithms.ts:111</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -204,13 +287,45 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L178">Algorithms.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L115">Algorithms.ts:115</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>proccessName: <span class="tsd-signature-type">string</span></h5>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-accessor tsd-parent-kind-class">
+					<a name="taskqueue-1" class="tsd-anchor"></a>
+					<h3>Task<wbr>Queue</h3>
+					<ul class="tsd-signatures tsd-kind-accessor tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> TaskQueue<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">set</span> TaskQueue<span class="tsd-signature-symbol">(</span>queue<span class="tsd-signature-symbol">: </span><a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L103">Algorithms.ts:103</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L107">Algorithms.ts:107</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>queue: <a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.task.html" class="tsd-signature-type">Task</a><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -220,69 +335,30 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="gettask" class="tsd-anchor"></a>
-					<h3>get<wbr>Task</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Task<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.task.html" class="tsd-signature-type">Task</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L172">Algorithms.ts:172</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-returns-title">Returns <a href="algorithm.task.html" class="tsd-signature-type">Task</a></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="isfinished" class="tsd-anchor"></a>
-					<h3>is<wbr>Finished</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Finished<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L184">Algorithms.ts:184</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Kiểm tra sự hoàn thành của tiến trình</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="allprocessarrived" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> all<wbr>Process<wbr>Arrived</h3>
+					<a name="isallfinished" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> is<wbr>All<wbr>Finished</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">all<wbr>Process<wbr>Arrived<span class="tsd-signature-symbol">(</span>listProcs<span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>All<wbr>Finished<span class="tsd-signature-symbol">(</span>processList<span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L203">Algorithms.ts:203</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L127">Algorithms.ts:127</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Kiểm tra tất cả các tiến trình đã bắt đầu hay chưa</p>
+									<p>Kiểm tra xem tất cả các tiến trình có hoàn thành hết chưa</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>listProcs: <a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>processList: <a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Dãy các tiến trình cần kiểm tra</p>
+										<p>Danh sách các tiến trình cần kiểm tra</p>
 									</div>
 								</li>
 							</ul>
@@ -291,33 +367,42 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
-					<a name="allprocessfinished" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> all<wbr>Process<wbr>Finished</h3>
+					<a name="peekprocess" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> peek<wbr>Process</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">all<wbr>Process<wbr>Finished<span class="tsd-signature-symbol">(</span>listProcs<span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">peek<wbr>Process<span class="tsd-signature-symbol">(</span>processList<span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span>, queue<span class="tsd-signature-symbol">: </span><a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/78fa1a6/Algorithms.ts#L191">Algorithms.ts:191</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L140">Algorithms.ts:140</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Kiểm tra các tiến trình có hoàn thành hết chưa</p>
+									<p>Lấy phần tử đầu tiên của hàng đợi dựa trên mã tiến trình</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>listProcs: <a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>processList: <a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>Dãy các tiến trình cần kiểm tra</p>
+										<p>danh sách tiến trình cần tìm</p>
+									</div>
+								</li>
+								<li>
+									<h5>queue: <a href="algorithm.queue.html" class="tsd-signature-type">Queue</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>hàng đợi tên của các tiến trình</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="algorithm.process.html" class="tsd-signature-type">Process</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -354,25 +439,34 @@
 								<a href="algorithm.process.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="algorithm.process.html#processname" class="tsd-kind-icon">process<wbr>Name</a>
+								<a href="algorithm.process.html#arrivaltime" class="tsd-kind-icon">arrival<wbr>Time</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="algorithm.process.html#task" class="tsd-kind-icon">task</a>
+								<a href="algorithm.process.html#ioflag" class="tsd-kind-icon">io<wbr>Flag</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="algorithm.process.html#processid" class="tsd-kind-icon">processID</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="algorithm.process.html#taskqueue" class="tsd-kind-icon">task<wbr>Queue</a>
+							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="algorithm.process.html#arrivaltime-1" class="tsd-kind-icon">Arrival<wbr>Time</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class">
-								<a href="algorithm.process.html#processname-1" class="tsd-kind-icon">Process<wbr>Name</a>
+								<a href="algorithm.process.html#ioflag-1" class="tsd-kind-icon">IOFlag</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="algorithm.process.html#gettask" class="tsd-kind-icon">get<wbr>Task</a>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="algorithm.process.html#processid-1" class="tsd-kind-icon">ProcessID</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="algorithm.process.html#isfinished" class="tsd-kind-icon">is<wbr>Finished</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="algorithm.process.html#allprocessarrived" class="tsd-kind-icon">all<wbr>Process<wbr>Arrived</a>
+							<li class=" tsd-kind-accessor tsd-parent-kind-class">
+								<a href="algorithm.process.html#taskqueue-1" class="tsd-kind-icon">Task<wbr>Queue</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
-								<a href="algorithm.process.html#allprocessfinished" class="tsd-kind-icon">all<wbr>Process<wbr>Finished</a>
+								<a href="algorithm.process.html#isallfinished" class="tsd-kind-icon">is<wbr>All<wbr>Finished</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="algorithm.process.html#peekprocess" class="tsd-kind-icon">peek<wbr>Process</a>
 							</li>
 						</ul>
 					</li>

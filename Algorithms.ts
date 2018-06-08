@@ -5,10 +5,6 @@ export module Algorithm {
      */
     export enum TaskType {
         /**
-         * Tác vụ đến
-         */
-        Arrive,
-        /**
          * Tác vụ CPU
          */
         CPU,
@@ -36,119 +32,40 @@ export module Algorithm {
      * Tác vụ của tiến trình
      */
     export class Task {
-        private type: TaskType;
-        private time: number;
-        private nextTask: Task | null;
-        private isFinished: boolean = false;
-        private isArrived: boolean = false;
-        /**
-         * 
-         * @param type Kiểu tác vụ
-         * @param time Thời gian thực hiện
-         * @param nextTask Tác vụ tiếp theo
-         */
-        constructor(type: TaskType, time: number, nextTask: Task | null) {
-            this.type = type;
-            this.time = time;
-            this.nextTask = nextTask;
-            this.isArrived = (this.time == 0 && this.type == TaskType.Arrive);
-
-        }
-
-        /**
-         * Nối tác vụ tiếp theo vào tác vụ hiện tại
-         * @param nextTask Tác vụ tiếp theo
-         */
-        public join(nextTask: Task): Task {
-            this.nextTask = nextTask;
-            return this.nextTask;
-        }
-
-
-        /**
-         * Sự hoàn thành của tác vụ
-         */
-        get IsFinished(): boolean {
-            return this.isFinished || this.type == TaskType.Arrive;
-        }
-        /**
-         * Kiểm tra sự hoàn thành của tiến trình
-         */
-        public isEnding(): boolean {
-            return this.isFinished && this.nextTask == null;
-        }
-        /**
-         * Di chuyển đến tác vụ tiếp theo nếu có
-         */
-        public moveNext(): boolean {
-            if (this.IsFinished && this.nextTask != null) {
-                this.type = this.nextTask.type;
-                this.time = this.nextTask.time;
-                this.nextTask = this.nextTask.nextTask;
-                return true;
-            }
-            return false;
-        }
-        /**
-         * Trừ bớt một đơn vị thời gian trong hoạt động của tác vụ
-         */
-        public decreaseTime() {
-            if (this.time == 0 || this.type == TaskType.Arrive) {
-                this.isFinished = true;
-            }
-            else {
-                this.time--;
-            }
-        }
-        /**
-         * Trả về chuỗi kiểu: <Kiểu>;<Thời gian>;
-         */
-        public toString(): void {
-            console.log(this.type + " ; " + this.time + " ; ");
-        }
-
-        /**
-         * Thời gian thực hiện một tác vụ. Đối với tác vụ kiểu Arrive thì đây là thời gian tiến trình bắt đầu chạy
-         */
-        get Time(): number {
-            return this.time;
-        }
-
         /**
          * Kiểu của tác vụ
          */
+        private type: TaskType;
+        /**
+         * Nhu cầu của tác vụ
+         */
+        private duration: number;
+
+        constructor(type: TaskType, duration: number) {
+            this.type = type;
+            this.duration = duration;
+        }
+
         get Type(): TaskType {
             return this.type;
         }
 
-        get IsArrived(): boolean {
-            return this.isArrived;
-        }
-
-        set IsArrived(arrived: boolean) {
-            this.isArrived = arrived;
+        get Duration(): number {
+            return this.duration;
         }
 
         /**
-         * Kiểm tra xem các tiến trình đã đến hay chưa
-         * @param listProcs Dãy các tiến trình
+         * Thực hiện một đơn vị nhu cầu của tác vụ
          */
-        static allArrived(listProcs: Process[]): boolean {
-            listProcs.forEach((value: Process, index: number, array: Process[]) => {
-                if (!value.getTask().IsArrived)
-                    return false;
-            });
-            return true;
+        public run(): void {
+            this.duration--;
         }
 
-        public logAll(): string {
-            var result: string = "";
-            var current: Task | null = new Task(this.Type, this.time, this.nextTask);
-            while (current != null) {
-                result += current.toString() + "\n";
-                current = current.nextTask;
-            }
-            return result;
+        /**
+         * Kiểm tra xem tác vụ đã hoàn thành chưa
+         */
+        public isFinished(): boolean {
+            return this.duration == 0;
         }
 
     }
@@ -157,60 +74,109 @@ export module Algorithm {
      * Tiến trình
      */
     export class Process {
-        private task: Task;
-        private processName: string;
         /**
-         * 
-         * @param processName Tên tiến trình
-         * @param task Tác vụ
+         * Mã tiến trình duy nhất
          */
-        constructor(processName: string, task: Task) {
-            this.processName = processName;
-            this.task = task;
+        private processID: string;
+        /**
+         * Hàng đợi các tác vụ. Trong tiến trình,  các tác vụ được lưu trữ lần lượt trong hàng đợi để chờ được thực thi.
+         */
+        private taskQueue: Queue<Task>;
+
+        /**
+         * Thời điểm tiến trình được đưa vào xử lý 
+         */
+        private arrivalTime: number;
+
+        /**
+         * Cờ báo thực thi IO
+         */
+        private ioFlag: boolean;
+
+        constructor(processID: string, arrivalTime: number, taskQueue: Queue<Task>) {
+            this.processID = processID;
+            this.taskQueue = taskQueue;
+            this.arrivalTime = arrivalTime;
+            this.ioFlag = false;
         }
 
-        public getTask(): Task {
-            return this.task;
+        get TaskQueue(): Queue<Task> {
+            return this.taskQueue;
         }
-        get ProcessName(): string {
-            return this.processName;
+
+        set TaskQueue(queue: Queue<Task>) {
+            this.taskQueue = queue;
         }
-        set ProcessName(proccessName: string) {
-            this.processName = proccessName;
+
+        get ProcessID(): string {
+            return this.processID;
         }
+
+        set ProcessID(id: string) {
+            this.processID = id;
+        }
+
+        get ArrivalTime(): number {
+            return this.arrivalTime;
+        }
+
         /**
-         * Kiểm tra sự hoàn thành của tiến trình
+         * Kiểm tra xem tất cả các tiến trình có hoàn thành hết chưa
+         * @param processList Danh sách các tiến trình cần kiểm tra
          */
-        public isFinished(): boolean {
-            return this.task.isEnding();
-        }
-        /**
-         * Kiểm tra các tiến trình có hoàn thành hết chưa
-         * @param listProcs Dãy các tiến trình cần kiểm tra
-         */
-        public static allProcessFinished(listProcs: Process[]): boolean {
-            listProcs.forEach((value: Process, index: number, array: Process[]) => {
-                if (!value.isFinished())
+        static isAllFinished(processList: Process[]): boolean {
+            for (let i = 0; i < processList.length; i++) {
+                if (!processList[i].taskQueue.isEmpty())
                     return false;
-            });
+            }
             return true;
         }
 
         /**
-         * Kiểm tra tất cả các tiến trình đã bắt đầu hay chưa
-         * @param listProcs Dãy các tiến trình cần kiểm tra
+         * Lấy phần tử đầu tiên của hàng đợi dựa trên mã tiến trình
+         * @param processList danh sách tiến trình cần tìm
+         * @param queue hàng đợi tên của các tiến trình
          */
-        public static allProcessArrived(listProcs: Process[]): boolean {
-            return Task.allArrived(listProcs);
+        static peekProcess(processList: Process[], queue: Queue<string>): Process | undefined {
+            let name = queue.peek();
+            if (name == undefined) {
+                return undefined;
+            }
+            else {
+                for (let i = 0; i < processList.length; i++) {
+                    if (processList[i].ProcessID == name)
+                        return processList[i];
+                }
+                return undefined;
+            }
+
         }
+
+        get IOFlag(): boolean {
+            return this.ioFlag;
+        }
+
+        set IOFlag(flag: boolean) {
+            this.ioFlag = flag;
+        }
+
     }
 
     /**
      * Sự kiện xảy ra trong quá trình điều phối
      */
     export class StoryEvent {
+        /**
+         * Thời điểm sự kiện được kích hoạt
+         */
         private time: number;
+        /**
+         * Tên tiến trình gây ra sự kiện
+         */
         private proccessName: string;
+        /**
+         * Mô tả chi tiết
+         */
         private description: string;
         /**
          * 
@@ -258,10 +224,19 @@ export module Algorithm {
      * Chuỗi các sự kiện
      */
     export class Storyboard {
+        /**
+         * Danh sách các sự kiện
+         */
         private list: Array<StoryEvent>;
+
+        /**
+         * Bộ đếm thời gian các biến cố xảy ra
+         */
+        private clock: number;
 
         constructor() {
             this.list = new Array<StoryEvent>();
+            this.clock = 0;
         }
 
         get Story(): Array<StoryEvent> {
@@ -274,6 +249,26 @@ export module Algorithm {
          */
         public addEvent(event: StoryEvent) {
             this.list.push(event);
+        }
+
+        /**
+         * Thêm một sự kiện mới vào chuỗi sự kiện ngay tại thời điểm hiện tại
+         * @param processName Tên tiến trình
+         * @param description Mô tả
+         */
+        public putEvent(processName: string, description: string) {
+            this.list.push(new StoryEvent(this.clock, processName, description));
+        }
+
+        /**
+         * Tăng thời gian
+         */
+        public tick(): void {
+            this.clock++;
+        }
+
+        get Clock(): number {
+            return this.clock;
         }
 
     }
@@ -303,7 +298,7 @@ export module Algorithm {
         /**
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
-        public viewTop(): T | undefined {
+        public peek(): T | undefined {
             if (this.list.length != 0)
                 return this.list[0];
             return undefined;
@@ -314,6 +309,13 @@ export module Algorithm {
          */
         public getLength(): number {
             return this.list.length;
+        }
+
+        /**
+         * Kiểm tra hàng đợi có rỗng hay không
+         */
+        public isEmpty(): boolean {
+            return this.list.length == 0;
         }
 
     }
@@ -329,11 +331,14 @@ export module Algorithm {
      * Bộ điều phối CPU
      */
     export abstract class Scheduler {
-        private inputProcess: Array<Process>;
+        /**
+         * Dãy các tiến trình cần điều phối
+         */
+        protected inputProcess: Array<Process>;
         /**
          * Kiểu của thiết bị nhập xuất (IO Device)
          */
-        private ioMode: IOType = IOType.Multi;
+        protected ioMode: IOType = IOType.Multi;
 
         constructor(inputProcess: Array<Process>) {
             this.inputProcess = inputProcess;
@@ -345,10 +350,10 @@ export module Algorithm {
             this.inputProcess = inputProcess;
         }
 
-        get IOMode():IOType{
+        get IOMode(): IOType {
             return this.ioMode;
         }
-        set IOMode(ioMode:IOType){
+        set IOMode(ioMode: IOType) {
             this.ioMode = ioMode;
         }
     }
@@ -372,30 +377,97 @@ export module Algorithm {
          */
         public scheduling(): Storyboard {
             let story = new Storyboard();
-            let time: number = 0;
-            let currentProcess: Process | undefined = undefined;
-            //Hàng đợi thực hiện CPU
-            let cpuQueue = new Queue<Process>();
-            while (!Process.allProcessArrived(this.InputProcess)) {
-                this.InputProcess.forEach((value: Process, index: number, array: Process[]) => {
-                    let currentTask = value.getTask();
-                    if (currentTask.Time == time) {
-                        if (currentTask.Type == TaskType.Arrive) {
-                            cpuQueue.enQueue(value);
-                        }
-                    }
-                });
-                if (cpuQueue.getLength() == 1) {
-                    currentProcess = cpuQueue.deQueue();
-                    if (currentProcess != undefined) {
-                        currentProcess.getTask().moveNext();
+            let cpuQueue: Queue<string> = new Queue<string>();
+            let ioQueue: Queue<string> = new Queue<string>();
 
+            while (!Process.isAllFinished(this.inputProcess)) {
+                for (let i = 0; i < this.inputProcess.length; i++) {
+                    if (this.inputProcess[i].ArrivalTime == story.Clock) {
+                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                        story.putEvent(this.inputProcess[i].ProcessID, "[AT] Arrival");
                     }
                 }
+
+                if (!cpuQueue.isEmpty()) {
+                    let proc = Process.peekProcess(this.inputProcess, cpuQueue);
+                    if (proc != undefined) {
+                        if (!proc.TaskQueue.isEmpty()) {
+                            let task = proc.TaskQueue.peek();
+                            if (task != undefined) {
+                                if (task.Type == TaskType.CPU) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock, proc.ProcessID, "[IN] CPU"));
+                                    }
+                                    if (task.isFinished()) {
+                                        proc.TaskQueue.deQueue();
+                                        cpuQueue.deQueue();
+                                        if (this.ioMode == IOType.Multi) {
+                                            proc.IOFlag = true;
+                                        }
+                                        else {
+                                            ioQueue.enQueue(proc.ProcessID);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+
+                if (this.ioMode == IOType.Multi) {
+                    for (let i = 0; i < this.inputProcess.length; i++) {
+                        if (this.inputProcess[i].IOFlag) {
+                            if (!this.inputProcess[i].TaskQueue.isEmpty()) {
+                                let task = this.inputProcess[i].TaskQueue.peek();
+                                if (task != undefined) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock + 1, this.inputProcess[i].ProcessID, "[IN] IO"));
+                                    }
+                                    else {
+                                        this.inputProcess[i].TaskQueue.deQueue();
+                                        this.inputProcess[i].IOFlag = false;
+                                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+                else {
+                    if (!ioQueue.isEmpty()) {
+                        let proc = Process.peekProcess(this.inputProcess, ioQueue);
+                        if (proc != undefined) {
+                            if (!proc.TaskQueue.isEmpty()) {
+                                let task = proc.TaskQueue.peek();
+                                if (task != undefined) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "[IN] IO"));
+                                    }
+                                    if (task.isFinished()) {
+                                        proc.TaskQueue.deQueue();
+                                        ioQueue.deQueue();
+                                        cpuQueue.enQueue(proc.ProcessID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                story.tick();
             }
 
             return story;
         }
+
+
+
+
     }
 
     /**
@@ -456,7 +528,7 @@ export module Algorithm {
          */
         private quantum: number = 1;
 
-        
+
         /**
          * 
          * @param inputProcess Dãy các tiến trình đầu vào

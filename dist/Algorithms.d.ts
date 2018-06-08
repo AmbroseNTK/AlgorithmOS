@@ -4,17 +4,13 @@ export declare module Algorithm {
      */
     enum TaskType {
         /**
-         * Tác vụ đến
-         */
-        Arrive = 0,
-        /**
          * Tác vụ CPU
          */
-        CPU = 1,
+        CPU = 0,
         /**
          * Tác vụ  IO
          */
-        IO = 2
+        IO = 1
     }
     /**
      * Kiểu của IO
@@ -34,86 +30,28 @@ export declare module Algorithm {
      */
     class Task {
         private type;
-        private time;
-        private nextTask;
-        private isFinished;
-        private isArrived;
-        /**
-         *
-         * @param type Kiểu tác vụ
-         * @param time Thời gian thực hiện
-         * @param nextTask Tác vụ tiếp theo
-         */
-        constructor(type: TaskType, time: number, nextTask: Task | null);
-        /**
-         * Nối tác vụ tiếp theo vào tác vụ hiện tại
-         * @param nextTask Tác vụ tiếp theo
-         */
-        join(nextTask: Task): Task;
-        /**
-         * Sự hoàn thành của tác vụ
-         */
-        readonly IsFinished: boolean;
-        /**
-         * Kiểm tra sự hoàn thành của tiến trình
-         */
-        isEnding(): boolean;
-        /**
-         * Di chuyển đến tác vụ tiếp theo nếu có
-         */
-        moveNext(): boolean;
-        /**
-         * Trừ bớt một đơn vị thời gian trong hoạt động của tác vụ
-         */
-        decreaseTime(): void;
-        /**
-         * Trả về chuỗi kiểu: <Kiểu>;<Thời gian>;
-         */
-        toString(): void;
-        /**
-         * Thời gian thực hiện một tác vụ. Đối với tác vụ kiểu Arrive thì đây là thời gian tiến trình bắt đầu chạy
-         */
-        readonly Time: number;
-        /**
-         * Kiểu của tác vụ
-         */
+        private duration;
+        constructor(type: TaskType, duration: number);
         readonly Type: TaskType;
-        IsArrived: boolean;
-        /**
-         * Kiểm tra xem các tiến trình đã đến hay chưa
-         * @param listProcs Dãy các tiến trình
-         */
-        static allArrived(listProcs: Process[]): boolean;
-        logAll(): string;
+        readonly Duration: number;
+        run(): void;
+        isFinished(): boolean;
     }
     /**
      * Tiến trình
      */
     class Process {
-        private task;
-        private processName;
-        /**
-         *
-         * @param processName Tên tiến trình
-         * @param task Tác vụ
-         */
-        constructor(processName: string, task: Task);
-        getTask(): Task;
-        ProcessName: string;
-        /**
-         * Kiểm tra sự hoàn thành của tiến trình
-         */
-        isFinished(): boolean;
-        /**
-         * Kiểm tra các tiến trình có hoàn thành hết chưa
-         * @param listProcs Dãy các tiến trình cần kiểm tra
-         */
-        static allProcessFinished(listProcs: Process[]): boolean;
-        /**
-         * Kiểm tra tất cả các tiến trình đã bắt đầu hay chưa
-         * @param listProcs Dãy các tiến trình cần kiểm tra
-         */
-        static allProcessArrived(listProcs: Process[]): boolean;
+        private processID;
+        private taskQueue;
+        private arrivalTime;
+        private ioFlag;
+        constructor(processID: string, arrivalTime: number, taskQueue: Queue<Task>);
+        TaskQueue: Queue<Task>;
+        ProcessID: string;
+        readonly ArrivalTime: number;
+        static isAllFinished(processList: Process[]): boolean;
+        static peekProcess(processList: Process[], queue: Queue<string>): Process | undefined;
+        IOFlag: boolean;
     }
     /**
      * Sự kiện xảy ra trong quá trình điều phối
@@ -139,6 +77,7 @@ export declare module Algorithm {
      */
     class Storyboard {
         private list;
+        private clock;
         constructor();
         readonly Story: Array<StoryEvent>;
         /**
@@ -146,6 +85,9 @@ export declare module Algorithm {
          * @param event Sự kiện mới
          */
         addEvent(event: StoryEvent): void;
+        putEvent(processName: string, description: string): void;
+        tick(): void;
+        readonly Clock: number;
     }
     /**
      * Hàng đợi
@@ -165,11 +107,12 @@ export declare module Algorithm {
         /**
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
-        viewTop(): T | undefined;
+        peek(): T | undefined;
         /**
          * Lấy độ dài hàng đợi
          */
         getLength(): number;
+        isEmpty(): boolean;
     }
     interface IScheduler {
         /**
@@ -177,10 +120,18 @@ export declare module Algorithm {
          */
         scheduling(): Storyboard;
     }
+    /**
+     * Bộ điều phối CPU
+     */
     abstract class Scheduler {
-        private inputProcess;
+        protected inputProcess: Array<Process>;
+        /**
+         * Kiểu của thiết bị nhập xuất (IO Device)
+         */
+        protected ioMode: IOType;
         constructor(inputProcess: Array<Process>);
         InputProcess: Array<Process>;
+        IOMode: IOType;
     }
     /**
      * Điều phối tiến trình CPU theo cơ chế FCFS (First-Come-First-Serve). Tiến trình vào trước được xử lý trước
@@ -195,7 +146,53 @@ export declare module Algorithm {
          * Điều phối FCFS
          */
         scheduling(): Storyboard;
-        private doCPU;
-        private doIO;
+    }
+    /**
+     * Điều phối CPU theo cơ chế SJF (Shortest Job First). Tiến trình yêu cầu ít CPU hơn thì được thực thi trước. Tiến trình đang chạy không bị cướp CPU.
+     */
+    class SjfScheduler extends Scheduler implements IScheduler {
+        /**
+         *
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess: Array<Process>);
+        /**
+         * Điều phối SJF
+         */
+        scheduling(): Storyboard;
+    }
+    /**
+     * Điều phối CPU theo cơ chế SRTF (Shortest Recent Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
+     */
+    class SrtfScheduler extends Scheduler implements IScheduler {
+        /**
+         *
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess: Array<Process>);
+        /**
+         * Điều phối SRTF
+         */
+        scheduling(): Storyboard;
+    }
+    /**
+     * Điều phối CPU theo cơ chế Round Robin. Tiến trình vào hàng đợi trước thì được điều phối trước. Tuy nhiên chúng chỉ được chiếm CPU trong độ dài thời gian là Quantum.
+     */
+    class RoundRobinScheduler extends Scheduler implements IScheduler {
+        /**
+         * Lát thời gian (Slice of time)
+         */
+        private quantum;
+        /**
+         *
+         * @param inputProcess Dãy các tiến trình đầu vào
+         * @param quantum lát thời gian
+         */
+        constructor(inputProcess: Array<Process>, quantum: number);
+        /**
+         * Điều phối Round Robin
+         */
+        scheduling(): Storyboard;
+        Quantum: number;
     }
 }
