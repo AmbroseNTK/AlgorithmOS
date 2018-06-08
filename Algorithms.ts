@@ -318,6 +318,14 @@ export module Algorithm {
             return this.list.length == 0;
         }
 
+        get List(): Array<T> {
+            return this.list;
+        }
+
+        set List(list: Array<T>) {
+            this.list = list;
+        }
+
     }
 
     export interface IScheduler {
@@ -464,10 +472,6 @@ export module Algorithm {
 
             return story;
         }
-
-
-
-
     }
 
     /**
@@ -492,10 +496,25 @@ export module Algorithm {
             return story;
         }
 
+        private sortQueueExclusiveFirstElement(queue: Queue<string>): void {
+            var temp = new Array<Process>();
+            if (queue.getLength() > 2) {
+                for (let i = 1; i < queue.getLength(); i++) {
+                    var name = queue.List[i];
+                    for (let j = 0; j < this.inputProcess.length; j++) {
+                        if (this.inputProcess[j].ProcessID == name) {
+                            temp.push(this.inputProcess[j]);
+                        }
+                    }
+
+                }
+            }
+        }
+
     }
 
     /**
-     * Điều phối CPU theo cơ chế SRTF (Shortest Recent Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
+     * Điều phối CPU theo cơ chế SRTF (Shortest Remaining Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
      */
     export class SrtfScheduler extends Scheduler implements IScheduler {
 
