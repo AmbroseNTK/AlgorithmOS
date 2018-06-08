@@ -160,6 +160,10 @@ export module Algorithm {
             this.ioFlag = flag;
         }
 
+        public clone():Process{
+            return new Process(this.processID,this.arrivalTime,this.taskQueue);
+        }
+
     }
 
     /**
@@ -496,10 +500,11 @@ export module Algorithm {
             return story;
         }
 
-        private sortQueueExclusiveFirstElement(queue: Queue<string>): void {
+        private sortQueue(startPos: number, queue: Queue<string>): void {
             var temp = new Array<Process>();
-            if (queue.getLength() > 2) {
-                for (let i = 1; i < queue.getLength(); i++) {
+
+            if (queue.getLength() > startPos + 1) {
+                for (let i = startPos + 1; i < queue.getLength(); i++) {
                     var name = queue.List[i];
                     for (let j = 0; j < this.inputProcess.length; j++) {
                         if (this.inputProcess[j].ProcessID == name) {
@@ -508,6 +513,25 @@ export module Algorithm {
                     }
 
                 }
+
+                temp.sort((a: Process, b: Process) => {
+                    let taskA = a.TaskQueue.peek();
+                    let taskB = a.TaskQueue.peek();
+                    if (taskA != undefined && taskB != undefined) {
+                        if (taskA.Duration < taskB.Duration)
+                            return -1;
+                        else if (taskA.Duration > taskB.Duration)
+                            return 1;
+                    }
+                    return 0;
+                });
+
+                let curr = 0;
+                for (let i = startPos + 1; i < queue.getLength(); i++) {
+                    queue.List[i] = temp[curr].ProcessID;
+                    curr++;
+                }
+
             }
         }
 
