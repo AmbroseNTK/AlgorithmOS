@@ -160,8 +160,8 @@ export module Algorithm {
             this.ioFlag = flag;
         }
 
-        public clone():Process{
-            return new Process(this.processID,this.arrivalTime,this.taskQueue);
+        public clone(): Process {
+            return new Process(this.processID, this.arrivalTime, this.taskQueue);
         }
 
     }
@@ -496,15 +496,111 @@ export module Algorithm {
          */
         public scheduling(): Storyboard {
             var story = new Storyboard();
+            let cpuQueue: Queue<string> = new Queue<string>();
+            let ioQueue: Queue<string> = new Queue<string>();
+            let cpuProcessing = false;
 
+            while (!Process.isAllFinished(this.inputProcess)) {
+                for (let i = 0; i < this.inputProcess.length; i++) {
+                    if (this.inputProcess[i].ArrivalTime == story.Clock) {
+                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                        story.putEvent(this.inputProcess[i].ProcessID, "[AT] Arrival");
+                    }
+                }
+                if (!cpuQueue.isEmpty()) {
+                    if (!cpuProcessing) {
+                        this.sortQueue(0,cpuQueue);
+                    }
+                    cpuProcessing = true;
+                }
+                
+
+                if (!cpuQueue.isEmpty()) {
+                    if (cpuProcessing) {
+                        let proc = Process.peekProcess(this.inputProcess, cpuQueue);
+                        if (proc != undefined) {
+                            if (!proc.TaskQueue.isEmpty()) {
+                                let task = proc.TaskQueue.peek();
+                                if (task != undefined) {
+                                    if (task.Type == TaskType.CPU) {
+                                        if (!task.isFinished()) {
+                                            task.run();
+                                            story.addEvent(new StoryEvent(story.Clock, proc.ProcessID, "[IN] CPU"));
+                                        }
+                                        if (task.isFinished()) {
+                                            proc.TaskQueue.deQueue();
+                                            cpuQueue.deQueue();
+                                            cpuProcessing = false;
+                                            if (this.ioMode == IOType.Multi) {
+                                                proc.IOFlag = true;
+                                            }
+                                            else {
+                                                var next = proc.TaskQueue.peek();
+                                                if (next != undefined && next.Type == TaskType.IO) {
+                                                    ioQueue.enQueue(proc.ProcessID);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (this.ioMode == IOType.Multi) {
+                    for (let i = 0; i < this.inputProcess.length; i++) {
+                        if (this.inputProcess[i].IOFlag) {
+                            if (!this.inputProcess[i].TaskQueue.isEmpty()) {
+                                let task = this.inputProcess[i].TaskQueue.peek();
+                                if (task != undefined) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock + 1, this.inputProcess[i].ProcessID, "[IN] IO"));
+                                    }
+                                    else {
+                                        this.inputProcess[i].TaskQueue.deQueue();
+                                        this.inputProcess[i].IOFlag = false;
+                                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                }
+                else {
+                    if (!ioQueue.isEmpty()) {
+                        let proc = Process.peekProcess(this.inputProcess, ioQueue);
+                        if (proc != undefined) {
+                            if (!proc.TaskQueue.isEmpty()) {
+                                let task = proc.TaskQueue.peek();
+                                if (task != undefined) {
+                                    if (!task.isFinished()) {
+                                        task.run();
+                                        story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "[IN] IO"));
+                                    }
+                                    if (task.isFinished()) {
+                                        proc.TaskQueue.deQueue();
+                                        ioQueue.deQueue();
+                                        cpuQueue.enQueue(proc.ProcessID);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                story.tick();
+            }
             return story;
         }
 
         private sortQueue(startPos: number, queue: Queue<string>): void {
             var temp = new Array<Process>();
 
-            if (queue.getLength() > startPos + 1) {
-                for (let i = startPos + 1; i < queue.getLength(); i++) {
+            if (queue.getLength() > startPos) {
+                for (let i = startPos; i < queue.getLength(); i++) {
                     var name = queue.List[i];
                     for (let j = 0; j < this.inputProcess.length; j++) {
                         if (this.inputProcess[j].ProcessID == name) {
@@ -516,7 +612,7 @@ export module Algorithm {
 
                 temp.sort((a: Process, b: Process) => {
                     let taskA = a.TaskQueue.peek();
-                    let taskB = a.TaskQueue.peek();
+                    let taskB = b.TaskQueue.peek();
                     if (taskA != undefined && taskB != undefined) {
                         if (taskA.Duration < taskB.Duration)
                             return -1;
@@ -527,12 +623,13 @@ export module Algorithm {
                 });
 
                 let curr = 0;
-                for (let i = startPos + 1; i < queue.getLength(); i++) {
+                for (let i = startPos; i < queue.getLength(); i++) {
                     queue.List[i] = temp[curr].ProcessID;
                     curr++;
                 }
 
             }
+
         }
 
     }
