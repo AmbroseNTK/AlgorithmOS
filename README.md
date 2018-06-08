@@ -86,4 +86,7 @@ Time: 7; Proc: P2; Task: [IN] CPU
 
 **Giải thích ý nghĩa**: Mỗi một dòng là một sự kiện trong quá trình điều phối. Mỗi dòng có thời gian xảy ra sự kiện (Time), Tiến trình gây nên sự kiện (Proc), Tác vụ được làm trong sự kiện đó (Task). [AT] nghĩa là tại một thời điểm xác định. [IN] nghĩa  là trong khoảng thời gian từ a đến b. VD: [IN] của 2 nghĩa là trong khoảng thời gian từ 2 đến 3.
 
+Sơ đồ:
+![alt text](./assets/Example_FCFS.PNG)
+
 **Tham khảo thêm trong tài liệu API**
