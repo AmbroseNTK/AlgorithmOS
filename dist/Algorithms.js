@@ -44,9 +44,15 @@ var Algorithm;
         get Duration() {
             return this.duration;
         }
+        /**
+         * Thực hiện một đơn vị nhu cầu của tác vụ
+         */
         run() {
             this.duration--;
         }
+        /**
+         * Kiểm tra xem tác vụ đã hoàn thành chưa
+         */
         isFinished() {
             return this.duration == 0;
         }
@@ -77,6 +83,10 @@ var Algorithm;
         get ArrivalTime() {
             return this.arrivalTime;
         }
+        /**
+         * Kiểm tra xem tất cả các tiến trình có hoàn thành hết chưa
+         * @param processList Danh sách các tiến trình cần kiểm tra
+         */
         static isAllFinished(processList) {
             for (let i = 0; i < processList.length; i++) {
                 if (!processList[i].taskQueue.isEmpty())
@@ -84,6 +94,11 @@ var Algorithm;
             }
             return true;
         }
+        /**
+         * Lấy phần tử đầu tiên của hàng đợi dựa trên mã tiến trình
+         * @param processList danh sách tiến trình cần tìm
+         * @param queue hàng đợi tên của các tiến trình
+         */
         static peekProcess(processList, queue) {
             let name = queue.peek();
             if (name == undefined) {
@@ -103,6 +118,9 @@ var Algorithm;
         set IOFlag(flag) {
             this.ioFlag = flag;
         }
+        clone() {
+            return new Process(this.processID, this.arrivalTime, this.taskQueue);
+        }
     }
     Algorithm.Process = Process;
     /**
@@ -119,6 +137,7 @@ var Algorithm;
             this.time = time;
             this.proccessName = processName;
             this.description = description;
+            this.endEvent = false;
         }
         get Time() {
             return this.time;
@@ -138,8 +157,18 @@ var Algorithm;
         set Description(description) {
             this.description = description;
         }
+        get EndEvent() {
+            return this.endEvent;
+        }
+        set EndEvent(isEnd) {
+            this.endEvent = isEnd;
+        }
         toString() {
-            return this.time + ";" + this.proccessName + ";" + this.description;
+            var result = this.time + ";" + this.proccessName + ";" + this.description;
+            if (this.endEvent) {
+                result += " END";
+            }
+            return result;
         }
     }
     Algorithm.StoryEvent = StoryEvent;
@@ -161,9 +190,17 @@ var Algorithm;
         addEvent(event) {
             this.list.push(event);
         }
+        /**
+         * Thêm một sự kiện mới vào chuỗi sự kiện ngay tại thời điểm hiện tại
+         * @param processName Tên tiến trình
+         * @param description Mô tả
+         */
         putEvent(processName, description) {
             this.list.push(new StoryEvent(this.clock, processName, description));
         }
+        /**
+         * Tăng thời gian
+         */
         tick() {
             this.clock++;
         }
@@ -196,9 +233,7 @@ var Algorithm;
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
         peek() {
-            if (this.list.length != 0)
-                return this.list[0];
-            return undefined;
+            return this.list[0];
         }
         /**
          * Lấy độ dài hàng đợi
@@ -206,8 +241,17 @@ var Algorithm;
         getLength() {
             return this.list.length;
         }
+        /**
+         * Kiểm tra hàng đợi có rỗng hay không
+         */
         isEmpty() {
             return this.list.length == 0;
+        }
+        get List() {
+            return this.list;
+        }
+        set List(list) {
+            this.list = list;
         }
     }
     Algorithm.Queue = Queue;
@@ -220,6 +264,11 @@ var Algorithm;
              * Kiểu của thiết bị nhập xuất (IO Device)
              */
             this.ioMode = IOType.Multi;
+            this.preempty = false;
+            this.interruptTime = 0;
+            this.sortable = false;
+            this.cpuQueue = new Queue();
+            this.ioQueue = new Queue();
             this.inputProcess = inputProcess;
         }
         get InputProcess() {
@@ -234,6 +283,196 @@ var Algorithm;
         set IOMode(ioMode) {
             this.ioMode = ioMode;
         }
+        /**
+         * Bộ điều phối CPU IO chung
+         * */
+        scheduling() {
+            var story = new Storyboard();
+            this.cpuQueue = new Queue();
+            this.ioQueue = new Queue();
+            let cpuProcessing = false;
+            let cpuRemaining = this.interruptTime;
+            while (!Process.isAllFinished(this.inputProcess)) {
+                for (let i = 0; i < this.inputProcess.length; i++) {
+                    if (this.inputProcess[i].ArrivalTime == story.Clock) {
+                        this.cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                        story.putEvent(this.inputProcess[i].ProcessID, "Arrived");
+                    }
+                }
+                if (this.ioMode == IOType.Multi) {
+                    for (let i = 0; i < this.inputProcess.length; i++) {
+                        let proc = this.inputProcess[i];
+                        if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.IO) {
+                            if (!proc.TaskQueue.peek().isFinished()) {
+                                story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "IO"));
+                                proc.TaskQueue.peek().run();
+                            }
+                            if (proc.TaskQueue.peek().isFinished()) {
+                                proc.TaskQueue.deQueue();
+                                proc.IOFlag = false;
+                                if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.CPU) {
+                                    this.cpuQueue.enQueue(proc.ProcessID);
+                                }
+                            }
+                        }
+                    }
+                }
+                if (this.ioMode == IOType.Single) {
+                    if (this.ioQueue.getLength() != 0) {
+                        var proc = Process.peekProcess(this.inputProcess, this.ioQueue);
+                        if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.IO) {
+                            if (!proc.TaskQueue.peek().isFinished()) {
+                                story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "IO"));
+                                proc.TaskQueue.peek().run();
+                            }
+                            if (proc.TaskQueue.peek().Duration == 0) {
+                                proc.TaskQueue.deQueue();
+                                this.ioQueue.deQueue();
+                                if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.CPU) {
+                                    this.cpuQueue.enQueue(proc.ProcessID);
+                                    if (!cpuProcessing && this.sortable) {
+                                        this.minPreempting(this.inputProcess);
+                                        cpuProcessing = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (this.preempty) {
+                    this.minPreempting(this.inputProcess);
+                }
+                if (story.Clock == 0 && this.cpuQueue.getLength() > 1) {
+                    this.minPreempting(this.inputProcess);
+                }
+                if (this.cpuQueue.getLength() != 0) {
+                    let proc = Process.peekProcess(this.inputProcess, this.cpuQueue);
+                    if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.CPU) {
+                        if (!proc.TaskQueue.peek().isFinished()) {
+                            if (this.interruptTime == 0) {
+                                story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "CPU"));
+                                proc.TaskQueue.peek().run();
+                            }
+                            else {
+                                if (cpuRemaining > 0) {
+                                    story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "CPU"));
+                                    proc.TaskQueue.peek().run();
+                                    cpuRemaining--;
+                                }
+                            }
+                        }
+                        if (cpuRemaining == 0) {
+                            if (!proc.TaskQueue.peek().isFinished()) {
+                                this.cpuQueue.enQueue(this.cpuQueue.deQueue());
+                            }
+                            cpuRemaining = this.interruptTime;
+                        }
+                        if (proc.TaskQueue.peek().isFinished()) {
+                            this.cpuQueue.deQueue();
+                            proc.TaskQueue.deQueue();
+                            cpuProcessing = false;
+                            if (this.interruptTime > 0) {
+                                cpuRemaining = this.interruptTime;
+                            }
+                            if (this.sortable) {
+                                this.minPreempting(this.inputProcess);
+                            }
+                        }
+                    }
+                    else if (proc.TaskQueue.getLength() == 0) {
+                        if (this.sortable) {
+                            this.minPreempting(this.inputProcess);
+                        }
+                        cpuProcessing = false;
+                    }
+                    if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.IO) {
+                        if (this.ioMode == IOType.Multi) {
+                            proc.IOFlag = true;
+                        }
+                        else {
+                            this.ioQueue.enQueue(proc.ProcessID);
+                        }
+                        if (this.interruptTime > 0) {
+                            cpuRemaining = this.interruptTime;
+                        }
+                    }
+                    else if (proc.TaskQueue.getLength() == 0) {
+                        story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "Terminated"));
+                        cpuProcessing = false;
+                        if (this.sortable) {
+                            this.minPreempting(this.inputProcess);
+                        }
+                    }
+                }
+                story.tick();
+            }
+            return story;
+        }
+        sortQueue(startPos, queue) {
+            var temp = new Array();
+            if (queue.getLength() > startPos) {
+                for (let i = startPos; i < queue.getLength(); i++) {
+                    var name = queue.List[i];
+                    for (let j = 0; j < this.inputProcess.length; j++) {
+                        if (this.inputProcess[j].ProcessID == name) {
+                            temp.push(this.inputProcess[j]);
+                        }
+                    }
+                }
+                temp.sort((a, b) => {
+                    let taskA = a.TaskQueue.peek();
+                    let taskB = b.TaskQueue.peek();
+                    if (taskA != undefined && taskB != undefined) {
+                        if (taskA.Duration < taskB.Duration)
+                            return -1;
+                        else if (taskA.Duration > taskB.Duration)
+                            return 1;
+                    }
+                    return 0;
+                });
+                let curr = 0;
+                for (let i = startPos; i < queue.getLength(); i++) {
+                    queue.List[i] = temp[curr].ProcessID;
+                    curr++;
+                }
+            }
+        }
+        minPreempting(list) {
+            let temp = new Array();
+            let minPos = 0;
+            if (this.cpuQueue.getLength() > 0) {
+                for (let i = 0; i < this.cpuQueue.getLength(); i++) {
+                    var name = this.cpuQueue.List[i];
+                    for (let j = 0; j < this.inputProcess.length; j++) {
+                        if (this.inputProcess[j].ProcessID == name) {
+                            temp.push(this.inputProcess[j]);
+                        }
+                    }
+                    if (i > 0) {
+                        if (temp[i].TaskQueue.getLength() != 0 && temp[0].TaskQueue.getLength() != 0) {
+                            if (temp[i].TaskQueue.peek().Duration < temp[0].TaskQueue.peek().Duration) {
+                                minPos = i;
+                            }
+                        }
+                    }
+                }
+            }
+            if (minPos > 0) {
+                this.cpuQueue = new Queue();
+                for (let i = 1; i < temp.length; i++) {
+                    if (i == minPos) {
+                        this.cpuQueue.enQueue(temp[i].ProcessID);
+                        break;
+                    }
+                }
+                for (let i = 1; i < temp.length; i++) {
+                    if (i != minPos) {
+                        this.cpuQueue.enQueue(temp[i].ProcessID);
+                    }
+                }
+                this.cpuQueue.enQueue(temp[0].ProcessID);
+            }
+        }
     }
     Algorithm.Scheduler = Scheduler;
     /**
@@ -246,91 +485,15 @@ var Algorithm;
          */
         constructor(inputProcess) {
             super(inputProcess);
+            this.sortable = false;
+            this.preempty = false;
+            this.interruptTime = 0;
         }
         /**
          * Điều phối FCFS
          */
         scheduling() {
-            let story = new Storyboard();
-            let cpuQueue = new Queue();
-            let ioQueue = new Queue();
-            while (!Process.isAllFinished(this.inputProcess)) {
-                for (let i = 0; i < this.inputProcess.length; i++) {
-                    if (this.inputProcess[i].ArrivalTime == story.Clock) {
-                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
-                        story.putEvent(this.inputProcess[i].ProcessID, "[AT] Arrival");
-                    }
-                }
-                if (!cpuQueue.isEmpty()) {
-                    let proc = Process.peekProcess(this.inputProcess, cpuQueue);
-                    if (proc != undefined) {
-                        if (!proc.TaskQueue.isEmpty()) {
-                            let task = proc.TaskQueue.peek();
-                            if (task != undefined) {
-                                if (task.Type == TaskType.CPU) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock, proc.ProcessID, "[IN] CPU"));
-                                    }
-                                    if (task.isFinished()) {
-                                        proc.TaskQueue.deQueue();
-                                        cpuQueue.deQueue();
-                                        if (this.ioMode == IOType.Multi) {
-                                            proc.IOFlag = true;
-                                        }
-                                        else {
-                                            ioQueue.enQueue(proc.ProcessID);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                if (this.ioMode == IOType.Multi) {
-                    for (let i = 0; i < this.inputProcess.length; i++) {
-                        if (this.inputProcess[i].IOFlag) {
-                            if (!this.inputProcess[i].TaskQueue.isEmpty()) {
-                                let task = this.inputProcess[i].TaskQueue.peek();
-                                if (task != undefined) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock + 1, this.inputProcess[i].ProcessID, "[IN] IO"));
-                                    }
-                                    else {
-                                        this.inputProcess[i].TaskQueue.deQueue();
-                                        this.inputProcess[i].IOFlag = false;
-                                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                else {
-                    if (!ioQueue.isEmpty()) {
-                        let proc = Process.peekProcess(this.inputProcess, ioQueue);
-                        if (proc != undefined) {
-                            if (!proc.TaskQueue.isEmpty()) {
-                                let task = proc.TaskQueue.peek();
-                                if (task != undefined) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "[IN] IO"));
-                                    }
-                                    if (task.isFinished()) {
-                                        proc.TaskQueue.deQueue();
-                                        ioQueue.deQueue();
-                                        cpuQueue.enQueue(proc.ProcessID);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                story.tick();
-            }
-            return story;
+            return super.scheduling();
         }
     }
     Algorithm.FcfsScheduler = FcfsScheduler;
@@ -344,33 +507,37 @@ var Algorithm;
          */
         constructor(inputProcess) {
             super(inputProcess);
+            this.preempty = false;
+            this.interruptTime = 0;
+            this.sortable = true;
         }
         /**
          * Điều phối SJF
          */
         scheduling() {
-            var story = new Storyboard();
-            return story;
+            return super.scheduling();
         }
     }
     Algorithm.SjfScheduler = SjfScheduler;
     /**
-     * Điều phối CPU theo cơ chế SRTF (Shortest Recent Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
+     * Điều phối CPU theo cơ chế SRTF (Shortest Remaining Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
      */
-    class SrtfScheduler extends Scheduler {
+    class SrtfScheduler extends SjfScheduler {
         /**
          *
          * @param inputProcess Dãy các tiến trình đầu vào
          */
         constructor(inputProcess) {
             super(inputProcess);
+            this.preempty = true;
+            this.sortable = true;
+            this.interruptTime = 0;
         }
         /**
          * Điều phối SRTF
-         */
+         * */
         scheduling() {
-            var story = new Storyboard();
-            return story;
+            return super.scheduling();
         }
     }
     Algorithm.SrtfScheduler = SrtfScheduler;
@@ -390,19 +557,22 @@ var Algorithm;
              */
             this.quantum = 1;
             this.Quantum = quantum;
+            this.interruptTime = quantum;
+            this.sortable = false;
+            this.preempty = false;
         }
         /**
          * Điều phối Round Robin
          */
         scheduling() {
-            var story = new Storyboard();
-            return story;
+            return super.scheduling();
         }
         get Quantum() {
             return this.quantum;
         }
         set Quantum(quantum) {
             this.quantum = quantum;
+            this.interruptTime = quantum;
         }
     }
     Algorithm.RoundRobinScheduler = RoundRobinScheduler;

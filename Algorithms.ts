@@ -1,3 +1,5 @@
+import { read } from "fs";
+
 export module Algorithm {
 
     /**
@@ -182,6 +184,9 @@ export module Algorithm {
          * Mô tả chi tiết
          */
         private description: string;
+
+        public endEvent: boolean;
+
         /**
          * 
          * @param time Thời gian xảy ra sự kiện
@@ -192,6 +197,7 @@ export module Algorithm {
             this.time = time;
             this.proccessName = processName;
             this.description = description;
+            this.endEvent = false;
         }
 
         get Time(): number {
@@ -217,8 +223,20 @@ export module Algorithm {
             this.description = description;
         }
 
+        get EndEvent(): boolean {
+            return this.endEvent;
+        }
+
+        set EndEvent(isEnd: boolean) {
+            this.endEvent = isEnd;
+        }
+
         public toString(): string {
-            return this.time + ";" + this.proccessName + ";" + this.description;
+            var result = this.time + ";" + this.proccessName + ";" + this.description;
+            if (this.endEvent) {
+                result += " END";
+            }
+            return result;
         }
 
 
@@ -302,10 +320,10 @@ export module Algorithm {
         /**
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
-        public peek(): T | undefined {
-            if (this.list.length != 0)
-                return this.list[0];
-            return undefined;
+        public peek(): T {
+
+            return this.list[0];
+
         }
 
         /**
@@ -342,7 +360,7 @@ export module Algorithm {
     /**
      * Bộ điều phối CPU
      */
-    export abstract class Scheduler {
+    export abstract class Scheduler implements IScheduler {
         /**
          * Dãy các tiến trình cần điều phối
          */
@@ -351,6 +369,13 @@ export module Algorithm {
          * Kiểu của thiết bị nhập xuất (IO Device)
          */
         protected ioMode: IOType = IOType.Multi;
+
+        protected preempty: boolean = false;
+        protected interruptTime: number = 0;
+        protected sortable: boolean = false;
+
+        private cpuQueue: Queue<string> = new Queue<string>();
+        private ioQueue: Queue<string> = new Queue<string>();
 
         constructor(inputProcess: Array<Process>) {
             this.inputProcess = inputProcess;
@@ -368,234 +393,155 @@ export module Algorithm {
         set IOMode(ioMode: IOType) {
             this.ioMode = ioMode;
         }
-    }
-
-    /**
-     * Điều phối tiến trình CPU theo cơ chế FCFS (First-Come-First-Serve). Tiến trình vào trước được xử lý trước
-     */
-    export class FcfsScheduler extends Scheduler implements IScheduler {
-
 
         /**
-         * 
-         * @param inputProcess Dãy các tiến trình đầu vào
-         */
-        constructor(inputProcess: Array<Process>) {
-            super(inputProcess);
-        }
-
-        /**
-         * Điều phối FCFS
-         */
-        public scheduling(): Storyboard {
-            let story = new Storyboard();
-            let cpuQueue: Queue<string> = new Queue<string>();
-            let ioQueue: Queue<string> = new Queue<string>();
-
-            while (!Process.isAllFinished(this.inputProcess)) {
-                for (let i = 0; i < this.inputProcess.length; i++) {
-                    if (this.inputProcess[i].ArrivalTime == story.Clock) {
-                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
-                        story.putEvent(this.inputProcess[i].ProcessID, "[AT] Arrival");
-                    }
-                }
-
-                if (!cpuQueue.isEmpty()) {
-                    let proc = Process.peekProcess(this.inputProcess, cpuQueue);
-                    if (proc != undefined) {
-                        if (!proc.TaskQueue.isEmpty()) {
-                            let task = proc.TaskQueue.peek();
-                            if (task != undefined) {
-                                if (task.Type == TaskType.CPU) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock, proc.ProcessID, "[IN] CPU"));
-                                    }
-                                    if (task.isFinished()) {
-                                        proc.TaskQueue.deQueue();
-                                        cpuQueue.deQueue();
-                                        if (this.ioMode == IOType.Multi) {
-                                            proc.IOFlag = true;
-                                        }
-                                        else {
-                                            ioQueue.enQueue(proc.ProcessID);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-
-                if (this.ioMode == IOType.Multi) {
-                    for (let i = 0; i < this.inputProcess.length; i++) {
-                        if (this.inputProcess[i].IOFlag) {
-                            if (!this.inputProcess[i].TaskQueue.isEmpty()) {
-                                let task = this.inputProcess[i].TaskQueue.peek();
-                                if (task != undefined) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock + 1, this.inputProcess[i].ProcessID, "[IN] IO"));
-                                    }
-                                    else {
-                                        this.inputProcess[i].TaskQueue.deQueue();
-                                        this.inputProcess[i].IOFlag = false;
-                                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                }
-                else {
-                    if (!ioQueue.isEmpty()) {
-                        let proc = Process.peekProcess(this.inputProcess, ioQueue);
-                        if (proc != undefined) {
-                            if (!proc.TaskQueue.isEmpty()) {
-                                let task = proc.TaskQueue.peek();
-                                if (task != undefined) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "[IN] IO"));
-                                    }
-                                    if (task.isFinished()) {
-                                        proc.TaskQueue.deQueue();
-                                        ioQueue.deQueue();
-                                        cpuQueue.enQueue(proc.ProcessID);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-
-                story.tick();
-            }
-
-            return story;
-        }
-    }
-
-    /**
-     * Điều phối CPU theo cơ chế SJF (Shortest Job First). Tiến trình yêu cầu ít CPU hơn thì được thực thi trước. Tiến trình đang chạy không bị cướp CPU.
-     */
-    export class SjfScheduler extends Scheduler implements IScheduler {
-
-        /**
-         * 
-         * @param inputProcess Dãy các tiến trình đầu vào
-         */
-        constructor(inputProcess: Array<Process>) {
-            super(inputProcess);
-        }
-
-        /**
-         * Điều phối SJF
-         */
+         * Bộ điều phối CPU IO chung
+         * */
         public scheduling(): Storyboard {
             var story = new Storyboard();
-            let cpuQueue: Queue<string> = new Queue<string>();
-            let ioQueue: Queue<string> = new Queue<string>();
+            this.cpuQueue = new Queue<string>();
+            this.ioQueue = new Queue<string>();
             let cpuProcessing = false;
+            let cpuRemaining = this.interruptTime;
 
             while (!Process.isAllFinished(this.inputProcess)) {
                 for (let i = 0; i < this.inputProcess.length; i++) {
                     if (this.inputProcess[i].ArrivalTime == story.Clock) {
-                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
-                        story.putEvent(this.inputProcess[i].ProcessID, "[AT] Arrival");
-                    }
-                }
-                if (!cpuQueue.isEmpty()) {
-                    if (!cpuProcessing) {
-                        this.sortQueue(0,cpuQueue);
-                    }
-                    cpuProcessing = true;
-                }
-                
-
-                if (!cpuQueue.isEmpty()) {
-                    if (cpuProcessing) {
-                        let proc = Process.peekProcess(this.inputProcess, cpuQueue);
-                        if (proc != undefined) {
-                            if (!proc.TaskQueue.isEmpty()) {
-                                let task = proc.TaskQueue.peek();
-                                if (task != undefined) {
-                                    if (task.Type == TaskType.CPU) {
-                                        if (!task.isFinished()) {
-                                            task.run();
-                                            story.addEvent(new StoryEvent(story.Clock, proc.ProcessID, "[IN] CPU"));
-                                        }
-                                        if (task.isFinished()) {
-                                            proc.TaskQueue.deQueue();
-                                            cpuQueue.deQueue();
-                                            cpuProcessing = false;
-                                            if (this.ioMode == IOType.Multi) {
-                                                proc.IOFlag = true;
-                                            }
-                                            else {
-                                                var next = proc.TaskQueue.peek();
-                                                if (next != undefined && next.Type == TaskType.IO) {
-                                                    ioQueue.enQueue(proc.ProcessID);
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        this.cpuQueue.enQueue(this.inputProcess[i].ProcessID);
+                        story.putEvent(this.inputProcess[i].ProcessID, "Arrived");
                     }
                 }
 
                 if (this.ioMode == IOType.Multi) {
                     for (let i = 0; i < this.inputProcess.length; i++) {
-                        if (this.inputProcess[i].IOFlag) {
-                            if (!this.inputProcess[i].TaskQueue.isEmpty()) {
-                                let task = this.inputProcess[i].TaskQueue.peek();
-                                if (task != undefined) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock + 1, this.inputProcess[i].ProcessID, "[IN] IO"));
-                                    }
-                                    else {
-                                        this.inputProcess[i].TaskQueue.deQueue();
-                                        this.inputProcess[i].IOFlag = false;
-                                        cpuQueue.enQueue(this.inputProcess[i].ProcessID);
-                                    }
+                        let proc = this.inputProcess[i];
+                        if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.IO) {
+                            if (!proc.TaskQueue.peek().isFinished()) {
+                                story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "IO"));
+                                proc.TaskQueue.peek().run();
+                            }
+                            if (proc.TaskQueue.peek().isFinished()) {
+                                proc.TaskQueue.deQueue();
+                                proc.IOFlag = false;
+                                if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.CPU) {
+                                    this.cpuQueue.enQueue(proc.ProcessID);
+                                    
                                 }
                             }
 
                         }
+
                     }
                 }
-                else {
-                    if (!ioQueue.isEmpty()) {
-                        let proc = Process.peekProcess(this.inputProcess, ioQueue);
-                        if (proc != undefined) {
-                            if (!proc.TaskQueue.isEmpty()) {
-                                let task = proc.TaskQueue.peek();
-                                if (task != undefined) {
-                                    if (!task.isFinished()) {
-                                        task.run();
-                                        story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "[IN] IO"));
-                                    }
-                                    if (task.isFinished()) {
-                                        proc.TaskQueue.deQueue();
-                                        ioQueue.deQueue();
-                                        cpuQueue.enQueue(proc.ProcessID);
+                if (this.ioMode == IOType.Single) {
+                    if (this.ioQueue.getLength() != 0) {
+                        var proc = Process.peekProcess(this.inputProcess, this.ioQueue);
+                        if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.IO) {
+                            if (!proc.TaskQueue.peek().isFinished()) {
+                                story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "IO"));
+                                proc.TaskQueue.peek().run();
+                            }
+                            if (proc.TaskQueue.peek().Duration == 0) {
+                                proc.TaskQueue.deQueue();
+                                this.ioQueue.deQueue();
+                                if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.CPU) {
+                                    this.cpuQueue.enQueue(proc.ProcessID);
+                                    if (!cpuProcessing && this.sortable) {
+                                        this.minPreempting(this.inputProcess);
+                                        cpuProcessing = true;
                                     }
                                 }
                             }
                         }
                     }
                 }
+
+              
+              
+
+                if (this.preempty) {
+                    this.minPreempting( this.inputProcess);
+                }
+
+                if (story.Clock == 0 && this.cpuQueue.getLength() > 1) {
+                    this.minPreempting(this.inputProcess);
+                }
+
+                if (this.cpuQueue.getLength() != 0) {
+                    let proc = Process.peekProcess(this.inputProcess, this.cpuQueue);
+                    if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.CPU) {
+                        if (!proc.TaskQueue.peek().isFinished()) {
+                            if (this.interruptTime == 0) {
+                                story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "CPU"));
+                                proc.TaskQueue.peek().run();
+                            }
+                            else {
+                                if (cpuRemaining > 0) {
+                                    story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "CPU"));
+                                    proc.TaskQueue.peek().run();
+                                    cpuRemaining--;
+                                }
+                                
+                            }
+                        }
+                        if (cpuRemaining == 0) {
+                            if (!proc.TaskQueue.peek().isFinished()) {
+                                this.cpuQueue.enQueue(this.cpuQueue.deQueue());
+                            }
+                            cpuRemaining = this.interruptTime;
+                        }
+                        if (proc.TaskQueue.peek().isFinished()) {
+                            this.cpuQueue.deQueue();
+                            proc.TaskQueue.deQueue();
+                            cpuProcessing = false;
+                            if (this.interruptTime > 0) {
+                                cpuRemaining = this.interruptTime;
+                            }
+                            if (this.sortable) {
+                                this.minPreempting(this.inputProcess);
+                            }
+
+                        }
+                    }
+                    else if (proc.TaskQueue.getLength() == 0) {
+                        if (this.sortable) {
+                            this.minPreempting(this.inputProcess);
+                        }
+                        cpuProcessing = false;
+                    }
+                    
+
+                    if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.IO) {
+                        
+                        if (this.ioMode == IOType.Multi) {
+                            proc.IOFlag = true;
+
+
+                        }
+                        else {
+                            this.ioQueue.enQueue(proc.ProcessID);
+                        }
+                        if (this.interruptTime > 0) {
+                            cpuRemaining = this.interruptTime;
+                        }
+                    }
+                    else if (proc.TaskQueue.getLength() == 0) {
+                        story.addEvent(new StoryEvent(story.Clock+1, proc.ProcessID, "Terminated"));
+                        cpuProcessing = false;
+                        if (this.sortable) {
+                            this.minPreempting(this.inputProcess);
+                        }
+                    }
+                }
+             
+
+                
 
                 story.tick();
             }
+            
             return story;
         }
-
         private sortQueue(startPos: number, queue: Queue<string>): void {
             var temp = new Array<Process>();
 
@@ -631,13 +577,56 @@ export module Algorithm {
             }
 
         }
+        private minPreempting(list: Process[]): void {
+            let temp = new Array<Process>();
 
+            let minPos = 0;
+            if (this.cpuQueue.getLength() > 0) {
+                for (let i = 0; i < this.cpuQueue.getLength(); i++) {
+                    var name = this.cpuQueue.List[i];
+                    for (let j = 0; j < this.inputProcess.length; j++) {
+                        if (this.inputProcess[j].ProcessID == name) {
+                            temp.push(this.inputProcess[j]);
+                        }
+                    }
+                    if (i > 0) {
+
+                        if (temp[i].TaskQueue.getLength() != 0 && temp[0].TaskQueue.getLength() != 0) {
+                            if (temp[i].TaskQueue.peek().Duration < temp[0].TaskQueue.peek().Duration) {
+                                minPos = i;
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            if (minPos > 0) {
+                this.cpuQueue = new Queue<string>();
+                for (let i = 1; i < temp.length; i++) {
+                    if (i == minPos) {
+                        this.cpuQueue.enQueue(temp[i].ProcessID);
+                        break;
+                    }
+                    
+                }
+                for (let i = 1; i < temp.length; i++) {
+                    if (i != minPos) {
+                        this.cpuQueue.enQueue(temp[i].ProcessID);
+                    }
+                }
+                this.cpuQueue.enQueue(temp[0].ProcessID);
+
+            }
+            
+        }
     }
 
     /**
-     * Điều phối CPU theo cơ chế SRTF (Shortest Remaining Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
+     * Điều phối tiến trình CPU theo cơ chế FCFS (First-Come-First-Serve). Tiến trình vào trước được xử lý trước
      */
-    export class SrtfScheduler extends Scheduler implements IScheduler {
+    export class FcfsScheduler extends Scheduler{
+
 
         /**
          * 
@@ -645,15 +634,67 @@ export module Algorithm {
          */
         constructor(inputProcess: Array<Process>) {
             super(inputProcess);
+            this.sortable = false;
+            this.preempty = false;
+            this.interruptTime = 0;
+        }
+
+        /**
+         * Điều phối FCFS
+         */
+        public scheduling(): Storyboard {
+            return super.scheduling();
+        }
+    }
+
+    /**
+     * Điều phối CPU theo cơ chế SJF (Shortest Job First). Tiến trình yêu cầu ít CPU hơn thì được thực thi trước. Tiến trình đang chạy không bị cướp CPU.
+     */
+    export class SjfScheduler extends Scheduler {
+
+        /**
+         * 
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess: Array<Process>) {
+            super(inputProcess);
+            this.preempty = false;
+            this.interruptTime = 0;
+            this.sortable = true;
+        }
+
+        /**
+         * Điều phối SJF
+         */
+        public scheduling(): Storyboard {
+            return super.scheduling();
+        }
+
+        
+
+    }
+
+    /**
+     * Điều phối CPU theo cơ chế SRTF (Shortest Remaining Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
+     */
+    export class SrtfScheduler extends SjfScheduler {
+
+        /**
+         * 
+         * @param inputProcess Dãy các tiến trình đầu vào
+         */
+        constructor(inputProcess: Array<Process>) {
+            super(inputProcess);
+            this.preempty = true;
+            this.sortable = true;
+            this.interruptTime = 0;
         }
 
         /**
          * Điều phối SRTF
-         */
+         * */
         public scheduling(): Storyboard {
-            var story = new Storyboard();
-
-            return story;
+            return super.scheduling();
         }
 
     }
@@ -661,7 +702,7 @@ export module Algorithm {
     /**
      * Điều phối CPU theo cơ chế Round Robin. Tiến trình vào hàng đợi trước thì được điều phối trước. Tuy nhiên chúng chỉ được chiếm CPU trong độ dài thời gian là Quantum.
      */
-    export class RoundRobinScheduler extends Scheduler implements IScheduler {
+    export class RoundRobinScheduler extends Scheduler {
 
         /**
          * Lát thời gian (Slice of time)
@@ -677,15 +718,16 @@ export module Algorithm {
         constructor(inputProcess: Array<Process>, quantum: number) {
             super(inputProcess);
             this.Quantum = quantum;
+            this.interruptTime = quantum;
+            this.sortable = false;
+            this.preempty = false;
         }
 
         /**
          * Điều phối Round Robin
          */
         public scheduling(): Storyboard {
-            var story = new Storyboard();
-
-            return story;
+            return super.scheduling();
         }
 
         get Quantum(): number {
@@ -693,6 +735,7 @@ export module Algorithm {
         }
         set Quantum(quantum: number) {
             this.quantum = quantum;
+            this.interruptTime = quantum;
         }
 
     }

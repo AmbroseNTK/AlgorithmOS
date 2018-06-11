@@ -1,12 +1,12 @@
 {
   "name": "algorithmos",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Các thuật toán của hệ điều hành",
   "main": "dist/Algorithms.js",
   "types": "dist/Algorithms.d.js",
   "scripts": {
     "prepare": "npm run build",
-    "build": "tsc --target ES2016",
+    "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

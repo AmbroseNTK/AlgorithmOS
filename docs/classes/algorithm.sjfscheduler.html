@@ -84,6 +84,11 @@
 						<ul class="tsd-hierarchy">
 							<li>
 								<span class="target">SjfScheduler</span>
+								<ul class="tsd-hierarchy">
+									<li>
+										<a href="algorithm.srtfscheduler.html" class="tsd-signature-type">SrtfScheduler</a>
+									</li>
+								</ul>
 							</li>
 						</ul>
 					</li>
@@ -109,7 +114,10 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="algorithm.sjfscheduler.html#inputprocess" class="tsd-kind-icon">input<wbr>Process</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="algorithm.sjfscheduler.html#interrupttime" class="tsd-kind-icon">interrupt<wbr>Time</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="algorithm.sjfscheduler.html#iomode" class="tsd-kind-icon">io<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="algorithm.sjfscheduler.html#preempty" class="tsd-kind-icon">preempty</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="algorithm.sjfscheduler.html#sortable" class="tsd-kind-icon">sortable</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-inherited">
@@ -122,7 +130,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="algorithm.sjfscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite"><a href="algorithm.sjfscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a></li>
 							</ul>
 						</section>
 					</div>
@@ -141,7 +149,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L476">Algorithms.ts:476</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L653">Algorithms.ts:653</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -171,7 +179,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#inputprocess">inputProcess</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L337">Algorithms.ts:337</a></li>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L367">Algorithms.ts:367</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -181,13 +189,24 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="interrupttime" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> interrupt<wbr>Time</h3>
+					<div class="tsd-signature tsd-kind-icon">interrupt<wbr>Time<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#interrupttime">interruptTime</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L374">Algorithms.ts:374</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 					<a name="iomode" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagProtected">Protected</span> io<wbr>Mode</h3>
 					<div class="tsd-signature tsd-kind-icon">io<wbr>Mode<span class="tsd-signature-symbol">:</span> <a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a><span class="tsd-signature-symbol"> =&nbsp;IOType.Multi</span></div>
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#iomode">ioMode</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L341">Algorithms.ts:341</a></li>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L371">Algorithms.ts:371</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -195,6 +214,28 @@
 							<p>Kiểu của thiết bị nhập xuất (IO Device)</p>
 						</div>
 					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="preempty" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> preempty</h3>
+					<div class="tsd-signature tsd-kind-icon">preempty<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#preempty">preempty</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L373">Algorithms.ts:373</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+					<a name="sortable" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagProtected">Protected</span> sortable</h3>
+					<div class="tsd-signature tsd-kind-icon">sortable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#sortable">sortable</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L375">Algorithms.ts:375</a></li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
@@ -211,7 +252,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#iomode-1">IOMode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L353">Algorithms.ts:353</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L390">Algorithms.ts:390</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <a href="../enums/algorithm.iotype.html" class="tsd-signature-type">IOType</a></h4>
@@ -220,7 +261,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#iomode-1">IOMode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L356">Algorithms.ts:356</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L393">Algorithms.ts:393</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -245,7 +286,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L346">Algorithms.ts:346</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L383">Algorithms.ts:383</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="algorithm.process.html" class="tsd-signature-type">Process</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -254,7 +295,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#inputprocess-1">InputProcess</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L349">Algorithms.ts:349</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L386">Algorithms.ts:386</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -270,18 +311,19 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 					<a name="scheduling" class="tsd-anchor"></a>
 					<h3>scheduling</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 						<li class="tsd-signature tsd-kind-icon">scheduling<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="algorithm.storyboard.html" class="tsd-signature-type">Storyboard</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Implementation of <a href="../interfaces/algorithm.ischeduler.html">IScheduler</a>.<a href="../interfaces/algorithm.ischeduler.html#scheduling">scheduling</a></p>
+								<p>Overrides <a href="algorithm.scheduler.html">Scheduler</a>.<a href="algorithm.scheduler.html#scheduling">scheduling</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/bcc4d35/Algorithms.ts#L489">Algorithms.ts:489</a></li>
+									<li>Defined in <a href="https://github.com/AmbroseNTK/AlgorithmOS/blob/f0cf498/Algorithms.ts#L669">Algorithms.ts:669</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -341,7 +383,16 @@
 								<a href="algorithm.sjfscheduler.html#inputprocess" class="tsd-kind-icon">input<wbr>Process</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="algorithm.sjfscheduler.html#interrupttime" class="tsd-kind-icon">interrupt<wbr>Time</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="algorithm.sjfscheduler.html#iomode" class="tsd-kind-icon">io<wbr>Mode</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="algorithm.sjfscheduler.html#preempty" class="tsd-kind-icon">preempty</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
+								<a href="algorithm.sjfscheduler.html#sortable" class="tsd-kind-icon">sortable</a>
 							</li>
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 								<a href="algorithm.sjfscheduler.html#iomode-1" class="tsd-kind-icon">IOMode</a>
@@ -349,7 +400,7 @@
 							<li class=" tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited">
 								<a href="algorithm.sjfscheduler.html#inputprocess-1" class="tsd-kind-icon">Input<wbr>Process</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite">
 								<a href="algorithm.sjfscheduler.html#scheduling" class="tsd-kind-icon">scheduling</a>
 							</li>
 						</ul>
