@@ -320,9 +320,11 @@ export module Algorithm {
         /**
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
-        public peek(): T {
-
-            return this.list[0];
+        public peek(): T | undefined {
+            if (this.list.length != 0) {
+                return this.list[0];
+            }
+            return undefined;
 
         }
 
@@ -441,10 +443,12 @@ export module Algorithm {
                                 story.addEvent(new StoryEvent(story.Clock + 1, proc.ProcessID, "IO"));
                                 proc.TaskQueue.peek().run();
                             }
-                            if (proc.TaskQueue.peek().Duration == 0) {
+                            if (proc.TaskQueue.peek().isFinished()) {
                                 proc.TaskQueue.deQueue();
                                 this.ioQueue.deQueue();
+                               
                                 if (proc.TaskQueue.getLength() != 0 && proc.TaskQueue.peek().Type == TaskType.CPU) {
+                                    
                                     this.cpuQueue.enQueue(proc.ProcessID);
                                     if (!cpuProcessing && this.sortable) {
                                         this.minPreempting(this.inputProcess);
@@ -456,8 +460,6 @@ export module Algorithm {
                     }
                 }
 
-              
-              
 
                 if (this.preempty) {
                     this.minPreempting( this.inputProcess);
@@ -484,7 +486,7 @@ export module Algorithm {
                                 
                             }
                         }
-                        if (cpuRemaining == 0) {
+                        if (cpuRemaining == 0 && this.interruptTime != 0) {
                             if (!proc.TaskQueue.peek().isFinished()) {
                                 this.cpuQueue.enQueue(this.cpuQueue.deQueue());
                             }
@@ -516,7 +518,6 @@ export module Algorithm {
                         if (this.ioMode == IOType.Multi) {
                             proc.IOFlag = true;
 
-
                         }
                         else {
                             this.ioQueue.enQueue(proc.ProcessID);
@@ -533,10 +534,7 @@ export module Algorithm {
                         }
                     }
                 }
-             
-
-                
-
+ 
                 story.tick();
             }
             
@@ -589,15 +587,15 @@ export module Algorithm {
                             temp.push(this.inputProcess[j]);
                         }
                     }
-                    if (i > 0) {
+                    
 
-                        if (temp[i].TaskQueue.getLength() != 0 && temp[0].TaskQueue.getLength() != 0) {
-                            if (temp[i].TaskQueue.peek().Duration < temp[0].TaskQueue.peek().Duration) {
-                                minPos = i;
-                            }
+                }
+                for (let i = 1; i < this.cpuQueue.getLength(); i++) {
+                    if (temp[i].TaskQueue.getLength() != 0 && temp[0].TaskQueue.getLength() != 0) {
+                        if (temp[i].TaskQueue.peek().Duration < temp[0].TaskQueue.peek().Duration) {
+                            minPos = i;
                         }
                     }
-
                 }
             }
 
@@ -659,8 +657,8 @@ export module Algorithm {
         constructor(inputProcess: Array<Process>) {
             super(inputProcess);
             this.preempty = false;
-            this.interruptTime = 0;
             this.sortable = true;
+            this.interruptTime = 0;
         }
 
         /**
@@ -677,7 +675,7 @@ export module Algorithm {
     /**
      * Điều phối CPU theo cơ chế SRTF (Shortest Remaining Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
      */
-    export class SrtfScheduler extends SjfScheduler {
+    export class SrtfScheduler extends Scheduler {
 
         /**
          * 
@@ -686,7 +684,7 @@ export module Algorithm {
         constructor(inputProcess: Array<Process>) {
             super(inputProcess);
             this.preempty = true;
-            this.sortable = true;
+            this.sortable = false;
             this.interruptTime = 0;
         }
 

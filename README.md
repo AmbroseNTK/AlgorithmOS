@@ -23,7 +23,7 @@ npm i algorithmos
 B3: Bắt đầu import và sử dụng
 </p>
 <h2>Code mẫu</h2>
-Điều phối hỗn hợp CPU+IO 2 tiến trình như sau và sử dụng chiến lược SRTF với IO device chung:
+Điều phối hỗn hợp CPU+IO 2 tiến trình như sau và sử dụng chiến lược SJF với IO device riêng:
 
 Process | Arrival time | CPU | IO | CPU
 --- | --- | --- | --- | --- |
@@ -87,30 +87,30 @@ Time: 1; Proc: P1; Task: CPU
 Time: 1; Proc: P2; Task: Arrived
 Time: 2; Proc: P1; Task: CPU
 Time: 2; Proc: P3; Task: Arrived
-Time: 3; Proc: P2; Task: CPU
-Time: 4; Proc: P2; Task: CPU
-Time: 5; Proc: P2; Task: IO
-Time: 5; Proc: P1; Task: CPU
-Time: 6; Proc: P2; Task: IO
-Time: 6; Proc: P3; Task: CPU
+Time: 3; Proc: P1; Task: CPU
+Time: 4; Proc: P1; Task: IO
+Time: 4; Proc: P3; Task: CPU
+Time: 5; Proc: P1; Task: IO
+Time: 5; Proc: P3; Task: IO
+Time: 5; Proc: P2; Task: CPU
+Time: 6; Proc: P1; Task: IO
+Time: 6; Proc: P2; Task: CPU
 Time: 7; Proc: P1; Task: IO
-Time: 7; Proc: P2; Task: CPU
-Time: 8; Proc: P1; Task: IO
-Time: 8; Proc: P2; Task: CPU
-Time: 8; Proc: P2; Task: Terminated
-Time: 9; Proc: P1; Task: IO
-Time: 10; Proc: P1; Task: IO
-Time: 10; Proc: P1; Task: CPU
-Time: 11; Proc: P3; Task: IO
-Time: 11; Proc: P1; Task: CPU
-Time: 12; Proc: P3; Task: CPU
-Time: 13; Proc: P3; Task: CPU
+Time: 7; Proc: P2; Task: IO
+Time: 7; Proc: P3; Task: CPU
+Time: 8; Proc: P2; Task: IO
+Time: 8; Proc: P3; Task: CPU
+Time: 9; Proc: P3; Task: CPU
+Time: 10; Proc: P3; Task: CPU
+Time: 11; Proc: P3; Task: CPU
+Time: 11; Proc: P3; Task: Terminated
+Time: 12; Proc: P2; Task: CPU
+Time: 13; Proc: P2; Task: CPU
+Time: 13; Proc: P2; Task: Terminated
 Time: 14; Proc: P1; Task: CPU
-Time: 14; Proc: P1; Task: Terminated
-Time: 15; Proc: P3; Task: CPU
-Time: 16; Proc: P3; Task: CPU
-Time: 17; Proc: P3; Task: CPU
-Time: 17; Proc: P3; Task: Terminated
+Time: 15; Proc: P1; Task: CPU
+Time: 16; Proc: P1; Task: CPU
+Time: 16; Proc: P1; Task: Terminated
 ```
 
 **Giải thích ý nghĩa**: Mỗi một dòng là một sự kiện trong quá trình điều phối. Mỗi dòng có thời gian xảy ra sự kiện (Time), Tiến trình gây nên sự kiện (Proc), Tác vụ được làm trong sự kiện đó (Task).
@@ -120,7 +120,7 @@ Time: 17; Proc: P3; Task: Terminated
 
 **Lưu ý: Thuật toán có thể bị sai trong một số trường hợp. Bạn nào có khả năng đóng góp, sửa lỗi thì chúng tôi chân thành cảm ơn.**
 
-Sơ đồ:
-![alt text](./assets/Example_FCFS.PNG)
+Video hướng dẫn của giảng viên **Phan Đình Thế Huân - ĐH Hoa Sen**:
+![Ví dụ](https://youtu.be/tVitgUXpBik)
 
 **Tham khảo thêm trong tài liệu API**
