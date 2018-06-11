@@ -58,13 +58,13 @@ var procList = new Array<al.Process>();
 procList.push(new al.Process("P1", 0, taskQueue1));
 procList.push(new al.Process("P2", 1, taskQueue2));
 procList.push(new al.Process("P3", 2, taskQueue3));
-//procList.push(new al.Process("P4", 3, taskQueue4));
+
 
 //Chọn thuật toán điều phối
-var scheduler = new al.SrtfScheduler(procList, 2);
+var scheduler = new al.SjfScheduler(procList);
 
 //Chọn chế độ IO
-scheduler.IOMode = al.IOType.Single;
+scheduler.IOMode = al.IOType.Multi;
 
 //Nhận kết quả trả về là một Storyboard
 var story: al.Storyboard = scheduler.scheduling();
@@ -72,7 +72,7 @@ var story: al.Storyboard = scheduler.scheduling();
 console.log(story.Story.length);
 
 story.Story.forEach((value: al.StoryEvent, index: number, array: al.StoryEvent[]) => {
-    console.log("Time: " + value.Time + "; Proc: " + value.ProcessName + "; Task: ");
+    console.log("Time: " + value.Time + "; Proc: " + value.ProcessName + "; Task: " + value.Description);
 });
 
 //In story ra màn hình
