@@ -23,68 +23,102 @@ npm i algorithmos
 B3: Bắt đầu import và sử dụng
 </p>
 <h2>Code mẫu</h2>
-Điều phối hỗn hợp CPU+IO 2 tiến trình như sau và sử dụng chiến lược FCFS với IO device chung:
+Điều phối hỗn hợp CPU+IO 2 tiến trình như sau và sử dụng chiến lược SRTF với IO device chung:
 
-Process | Arrive time | CPU | IO | CPU
+Process | Arrival time | CPU | IO | CPU
 --- | --- | --- | --- | --- |
-`P1` | 1 | 2 | 1 | 3
-`P2` | 0 | 1 | 3 | 2
+`P1` | 0 | 3 | 4 | 3
+`P2` | 1 | 2 | 2 | 2
+`P2` | 2 | 1 | 1 | 5
 
 ```typescript
 import { Algorithm as al } from './Algorithms'
 
-//Tạo hàng đợi các tác vụ cho tiến trình
+//Tạo hàng đợi các tiến trình theo yêu cầu
 
 var taskQueue1 = new al.Queue<al.Task>();
-taskQueue1.enQueue(new al.Task(al.TaskType.CPU, 2));
-taskQueue1.enQueue(new al.Task(al.TaskType.IO, 1));
+taskQueue1.enQueue(new al.Task(al.TaskType.CPU, 3));
+taskQueue1.enQueue(new al.Task(al.TaskType.IO, 4));
 taskQueue1.enQueue(new al.Task(al.TaskType.CPU, 3));
 
 var taskQueue2 = new al.Queue<al.Task>();
-taskQueue2.enQueue(new al.Task(al.TaskType.CPU, 1));
-taskQueue2.enQueue(new al.Task(al.TaskType.IO, 3));
 taskQueue2.enQueue(new al.Task(al.TaskType.CPU, 2));
+taskQueue2.enQueue(new al.Task(al.TaskType.IO, 2));
+taskQueue2.enQueue(new al.Task(al.TaskType.CPU, 2));
+
+var taskQueue3 = new al.Queue<al.Task>();
+taskQueue3.enQueue(new al.Task(al.TaskType.CPU, 1));
+taskQueue3.enQueue(new al.Task(al.TaskType.IO, 1));
+taskQueue3.enQueue(new al.Task(al.TaskType.CPU, 5));
+
 
 
 //Tạo danh sách các tiến trình
 var procList = new Array<al.Process>();
 procList.push(new al.Process("P1", 0, taskQueue1));
 procList.push(new al.Process("P2", 1, taskQueue2));
+procList.push(new al.Process("P3", 2, taskQueue3));
+//procList.push(new al.Process("P4", 3, taskQueue4));
 
 //Chọn thuật toán điều phối
-var scheduler = new al.FcfsScheduler(procList);
+var scheduler = new al.SrtfScheduler(procList, 2);
 
-//Chọn kiểu thiết bị nhập xuất, mặc định là Multi
+//Chọn chế độ IO
 scheduler.IOMode = al.IOType.Single;
 
 //Nhận kết quả trả về là một Storyboard
 var story: al.Storyboard = scheduler.scheduling();
 
-//In ra màn hình kết quả
+console.log(story.Story.length);
+
 story.Story.forEach((value: al.StoryEvent, index: number, array: al.StoryEvent[]) => {
-    console.log("Time: " + value.Time + "; Proc: " + value.ProcessName + "; Task: " + value.Description);
+    console.log("Time: " + value.Time + "; Proc: " + value.ProcessName + "; Task: ");
 });
+
+//In story ra màn hình
+console.log();
 ```
 Kết quả thực hiện thuật toán:</br>
 
 ```
-Time: 0; Proc: P1; Task: [AT] Arrival
-Time: 0; Proc: P1; Task: [IN] CPU
-Time: 1; Proc: P2; Task: [AT] Arrival
-Time: 1; Proc: P1; Task: [IN] CPU
-Time: 2; Proc: P1; Task: [IN] IO
-Time: 2; Proc: P2; Task: [IN] CPU
-Time: 3; Proc: P2; Task: [IN] IO
-Time: 3; Proc: P1; Task: [IN] CPU
-Time: 4; Proc: P2; Task: [IN] IO
-Time: 4; Proc: P1; Task: [IN] CPU
-Time: 5; Proc: P2; Task: [IN] IO
-Time: 5; Proc: P1; Task: [IN] CPU
-Time: 6; Proc: P2; Task: [IN] CPU
-Time: 7; Proc: P2; Task: [IN] CPU
+29
+Time: 0; Proc: P1; Task: Arrived
+Time: 1; Proc: P1; Task: CPU
+Time: 1; Proc: P2; Task: Arrived
+Time: 2; Proc: P1; Task: CPU
+Time: 2; Proc: P3; Task: Arrived
+Time: 3; Proc: P2; Task: CPU
+Time: 4; Proc: P2; Task: CPU
+Time: 5; Proc: P2; Task: IO
+Time: 5; Proc: P1; Task: CPU
+Time: 6; Proc: P2; Task: IO
+Time: 6; Proc: P3; Task: CPU
+Time: 7; Proc: P1; Task: IO
+Time: 7; Proc: P2; Task: CPU
+Time: 8; Proc: P1; Task: IO
+Time: 8; Proc: P2; Task: CPU
+Time: 8; Proc: P2; Task: Terminated
+Time: 9; Proc: P1; Task: IO
+Time: 10; Proc: P1; Task: IO
+Time: 10; Proc: P1; Task: CPU
+Time: 11; Proc: P3; Task: IO
+Time: 11; Proc: P1; Task: CPU
+Time: 12; Proc: P3; Task: CPU
+Time: 13; Proc: P3; Task: CPU
+Time: 14; Proc: P1; Task: CPU
+Time: 14; Proc: P1; Task: Terminated
+Time: 15; Proc: P3; Task: CPU
+Time: 16; Proc: P3; Task: CPU
+Time: 17; Proc: P3; Task: CPU
+Time: 17; Proc: P3; Task: Terminated
 ```
 
-**Giải thích ý nghĩa**: Mỗi một dòng là một sự kiện trong quá trình điều phối. Mỗi dòng có thời gian xảy ra sự kiện (Time), Tiến trình gây nên sự kiện (Proc), Tác vụ được làm trong sự kiện đó (Task). [AT] nghĩa là tại một thời điểm xác định. [IN] nghĩa  là trong khoảng thời gian từ a đến b. VD: [IN] của 2 nghĩa là trong khoảng thời gian từ 2 đến 3.
+**Giải thích ý nghĩa**: Mỗi một dòng là một sự kiện trong quá trình điều phối. Mỗi dòng có thời gian xảy ra sự kiện (Time), Tiến trình gây nên sự kiện (Proc), Tác vụ được làm trong sự kiện đó (Task).
+
+
+</br>
+
+**Lưu ý: Thuật toán có thể bị sai trong một số trường hợp. Bạn nào có khả năng đóng góp, sửa lỗi thì chúng tôi chân thành cảm ơn.**
 
 Sơ đồ:
 ![alt text](./assets/Example_FCFS.PNG)
