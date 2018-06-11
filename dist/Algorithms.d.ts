@@ -166,7 +166,7 @@ export declare module Algorithm {
         /**
          * Xem phần tử đầu tiên của hàng đợi nhưng không xóa khỏi hàng đợi
          */
-        peek(): T;
+        peek(): T | undefined;
         /**
          * Lấy độ dài hàng đợi
          */
@@ -241,7 +241,7 @@ export declare module Algorithm {
     /**
      * Điều phối CPU theo cơ chế SRTF (Shortest Remaining Time First). Tiến trình đang có yêu cầu CPU ít hơn sẽ giành quyền thực thi.
      */
-    class SrtfScheduler extends SjfScheduler {
+    class SrtfScheduler extends Scheduler {
         /**
          *
          * @param inputProcess Dãy các tiến trình đầu vào

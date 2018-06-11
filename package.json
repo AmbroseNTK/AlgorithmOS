@@ -1,6 +1,6 @@
 {
   "name": "algorithmos",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Các thuật toán của hệ điều hành",
   "main": "dist/Algorithms.js",
   "types": "dist/Algorithms.d.js",

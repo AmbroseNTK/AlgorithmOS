@@ -120,7 +120,7 @@ Time: 16; Proc: P1; Task: Terminated
 
 >Lưu ý: Thuật toán có thể bị sai trong một số trường hợp. Bạn nào có khả năng đóng góp, sửa lỗi thì chúng tôi chân thành cảm ơn.
 
-Video hướng dẫn của giảng viên **Phan Đình Thế Huân - ĐH Hoa Sen**:
+Video hướng dẫn của giảng viên **Phan Đình Thế Huân - ĐH Hoa Sen**:</br>
 [![Video Hướng dẫn]()](https://www.youtube.com/embed/tVitgUXpBik)
 
 **Tham khảo thêm trong tài liệu API**
@@ -128,9 +128,3 @@ Video hướng dẫn của giảng viên **Phan Đình Thế Huân - ĐH Hoa Sen
 <h2>Tại sao có thư viện này</h2>
 Thư viện này giúp mô phỏng các thuật toán được dùng trong hệ điều hành. Từ đó có cái nhìn chân thực và dễ hiểu về chúng.</br>Đây cũng là sản phẩm của nhóm 15 môn Lý thuyết Hệ điều hành, HK 17.2A, ĐH Hoa Sen.
 
-<h2>Nhóm phát triển</h2>
-Tên | ID | Nhiệm vụ | SĐT |
---- | --- | --- | --- |
-Nguyễn Tuấn Kiệt | 2162392 | Leader | 0966442382
-Nguyễn Minh Tâm | | Phụ việc |
-Hiếu | | Phụ việc |
